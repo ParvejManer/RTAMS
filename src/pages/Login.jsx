@@ -11,26 +11,28 @@ import { useNavigate } from "react-router-dom";
 import { Field, Form, Formik } from "formik";
 import { validateSchemaForLogin } from "../validateSchema/ValidationSchema";
 
-const Login = () => {
+function Login  () {
+  
   const navigate = useNavigate();
 
   return (
     <Container component="main" maxWidth="xs">
-      <Paper elevation={3} style={{ padding: "2rem", marginTop: "2rem" }}>
+      <Paper elevation={4} style={{ padding: "2rem", marginTop: "2rem" }}>
         <Typography variant="h4" component="h1" textAlign="center" gutterBottom>
           Login
         </Typography>
         <Formik
           initialValues={{
-            username: "",
+            mobileno: "",
             password: "",
           }}
           validationSchema={validateSchemaForLogin}
           onSubmit={(values, { setErrors }) => {
             // Placeholder for authentication logic
-            if (values.username === "admin" && values.password === "password") {
-              console.log("Hello, How can I help you?");
-              navigate("/userform");
+            if (values.mobileno === "1234567890" && values.password === "password") {
+              // console.log("Hello, How can I help you?");
+              console.log("Form data: ",values);
+              navigate("/");
             } else {
               setErrors({ general: "Invalid username or password" });
             }
@@ -45,11 +47,11 @@ const Login = () => {
                 margin="normal"
                 required
                 fullWidth
-                id="username"
-                label="Username"
-                name="username"
-                error={touched.username && Boolean(errors.username)}
-                helperText={touched.username && errors.username}
+                id="mobileno"
+                label="Mobile Number"
+                name="mobileno"
+                error={touched.mobileno && Boolean(errors.mobileno)}
+                helperText={touched.mobileno && errors.mobileno}
               />
               <Field
                 as={TextField}

@@ -3,7 +3,7 @@ import { ContactPage, Home, Info, Login } from "@mui/icons-material";
 import { AppBar, Toolbar, Button } from "@mui/material";
 import { Link } from "react-router-dom";
 
-function Navbar() {
+function Navbar  () {
   return (
     <AppBar position="relative" color="default">
       <Toolbar sx={{ justifyContent: "space-evenly" }}>
@@ -55,15 +55,16 @@ function Navbar() {
         >
           <ContactPage />
         </Button>
-        <Button
-          color="inherit"
-          component={Link}
-          to="/login"
-          sx={{ display: { xs: "none", sm: "block" } }}
-        >
-          Login
-        </Button>
-       
+
+          <Button
+            color="inherit"
+            component={Link}
+            to="/login"
+            sx={{ display: { xs: "none", sm: "block" } }}
+          >
+            Login
+          </Button>
+
         <Button
           color="inherit"
           component={Link}
@@ -75,6 +76,6 @@ function Navbar() {
       </Toolbar>
     </AppBar>
   );
-}
+};
 
 export default Navbar;

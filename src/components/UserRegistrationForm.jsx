@@ -1,12 +1,17 @@
 import React from "react";
 import { Formik, Form } from "formik";
-import { Button, Paper, Stack } from "@mui/material";
+import { Button, Paper, Stack, Typography } from "@mui/material";
 import { validateSchemaForUserRegistration } from "../validateSchema/ValidationSchema";
 import TextInput from "../customTextFields/TextInput";
+import { useNavigate } from "react-router-dom";
 
 const UserRegistrationForm = () => {
+
+  const navigate = useNavigate();
+
   const onSubmit = (values, actions) => {
     console.log(values);
+    navigate("/userform/vehicleform");
     setTimeout(() => {
       actions.resetForm();
     }, 500);
@@ -15,9 +20,9 @@ const UserRegistrationForm = () => {
   return (
     <Stack
       component="main"
-      sx={{ padding: 2, marginTop: 2, alignItems: "center" }}
+      sx={{ padding: 2, marginTop: 2, alignItems: "center", overflow:"auto", height:"700px" }}
     >
-      <Paper elevation={2} sx={{ padding: 2 }}>
+      <Paper elevation={4} sx={{ padding: 2 }}>
         <Formik
           initialValues={{
             firstName: "",
@@ -36,6 +41,7 @@ const UserRegistrationForm = () => {
         >
           {({ props }) => (
             <Stack component={Form} spacing={3}>
+              <Typography variant="h4" textAlign="center">Owner Information</Typography>
               <Stack direction="row" spacing={2}>
                 <TextInput label="First Name" name="firstName" fullWidth />
                 <TextInput label="Middle Name" name="middleName" fullWidth />
@@ -70,7 +76,7 @@ const UserRegistrationForm = () => {
                 color="primary"
                 sx={{ marginTop: 2 }}
               >
-                Register User
+                Add Vehicle
               </Button>
             </Stack>
           )}

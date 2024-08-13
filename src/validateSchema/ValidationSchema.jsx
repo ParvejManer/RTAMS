@@ -7,8 +7,8 @@ export const validateSchemaForUserRegistration = Yup.object().shape({
   streetName: Yup.string().required("Street Name is required"),
   citynTown: Yup.string().required("City/Town Name is required"),
   pinCode: Yup.string()
-  .matches(/^4\d{5}$/, "Invalid Pincode") 
-  .required("Pin Code is required"),
+    .matches(/^4\d{5}$/, "Invalid Pincode")
+    .required("Pin Code is required"),
   contactNumber: Yup.string()
     .matches(/^\d{10}$/, "Invalid mobile number")
     .required("Contact Number is required"),
@@ -21,6 +21,25 @@ export const validateSchemaForUserRegistration = Yup.object().shape({
 });
 
 export const validateSchemaForLogin = Yup.object().shape({
-  username: Yup.string().required("Username is required"),
-  password: Yup.string().min(6).required("Password is required"),
+  mobileno: Yup.string().required("Mobile number is required"),
+  password: Yup.string().required("Password is required"),
+});
+
+export const validationSchemeForVehicleRegistration = Yup.object().shape({
+  make: Yup.string().required("This field is required"),
+  model: Yup.string().required("This field is required"),
+  manufacture: Yup.string()
+    .matches(/^\d{4}$/, "Invalid Year")
+    .required("This field is required"),
+  color: Yup.string().required("This field is required"),
+  vin: Yup.string()
+    .required("This field is required")
+    .length(17, "VIN must be 17 characters long")
+    .matches(/^[A-Z0-9]+$/, "VIN must contain only alphanumeric characters"),
+  // engineNumber: Yup.string()
+  //   .length(10, "Engine number must be 10 characters long")
+  //   .matches(/^[A-Z]{3}[0-9]{7}$/, "Invalid engine number format")
+  //   .required("This field is required"),
+  fuelType: Yup.string().required("This field is required"),
+  division: Yup.string().required("This field is required"),
 });
