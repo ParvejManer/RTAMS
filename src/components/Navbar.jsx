@@ -1,12 +1,12 @@
 // src/components/Navbar.js
 import { ContactPage, Home, Info, Login } from "@mui/icons-material";
-import { AppBar, Toolbar, Button } from "@mui/material";
+import { AppBar, Toolbar, Button, Tooltip, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 
 function Navbar  () {
   return (
     <AppBar position="relative" color="default">
-      <Toolbar sx={{ justifyContent: "space-evenly" }}>
+      <Toolbar sx={{ justifyContent: "space-evenly",}}>
         <Button
           color="inherit"
           component={Link}
@@ -15,14 +15,19 @@ function Navbar  () {
         >
           Home
         </Button>
-        <Button
+
+        <Tooltip title="Home">
+        <IconButton
           color="inherit"
           component={Link}
           to="/"
-          sx={{ display: { xs: "block", sm: "none" } }}
-        >
+          sx={{ display: { xs: "block", sm: "none"} }}
+        > 
           <Home />
-        </Button>
+          <span style={{fontSize:"15px", display:"flex"}}>Home</span>
+        </IconButton>
+        </Tooltip>
+
         <Button
           color="inherit"
           component={Link}
@@ -31,14 +36,19 @@ function Navbar  () {
         >
           About Us
         </Button>
-        <Button
+       
+       <Tooltip title="About us">
+        <IconButton
           color="inherit"
           component={Link}
           to="/about"
-          sx={{ display: { xs: "block", sm: "none" } }}
+          sx={{ display: { xs: "block", sm: "none", margin:"5px" } }}
         >
           <Info />
-        </Button>
+          <div style={{fontSize:"15px", display:"flex"}}>About Us</div>
+        </IconButton>
+        </Tooltip>
+
         <Button
           color="inherit"
           component={Link}
@@ -47,14 +57,18 @@ function Navbar  () {
         >
           Contact Us
         </Button>
-        <Button
+       
+       <Tooltip title="Contact Us">
+        <IconButton
           color="inherit"
           component={Link}
           to="/contact"
           sx={{ display: { xs: "Block", sm: "none" } }}
         >
           <ContactPage />
-        </Button>
+          <span style={{fontSize:"15px", display:"flex"}}>Contact Us</span>
+        </IconButton>
+        </Tooltip>
 
           <Button
             color="inherit"
@@ -65,14 +79,18 @@ function Navbar  () {
             Login
           </Button>
 
-        <Button
+        <Tooltip title="Login">
+        <IconButton
           color="inherit"
           component={Link}
           to="/login"
           sx={{ display: { xs: "block", sm: "none" } }}
         >
           <Login />
-        </Button>
+          <span style={{fontSize:"15px", display:"flex"}}>Login</span>
+        </IconButton>
+        </Tooltip>
+
       </Toolbar>
     </AppBar>
   );

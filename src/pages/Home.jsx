@@ -1,4 +1,3 @@
-// src/pages/Home.js
 import { Container, Typography, Button, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import React from "react";

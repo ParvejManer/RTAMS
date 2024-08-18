@@ -28,9 +28,9 @@ function Login() {
             left: 0,
             width: "100%",
             height: "100%",
-            backgroundColor: "rgba(255, 255, 255, 0.6)", 
-            backdropFilter: "blur(10px)", 
-            zIndex: 9999, 
+            backgroundColor: "rgba(255, 255, 255, 0.6)",
+            backdropFilter: "blur(10px)",
+            zIndex: 9999,
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -39,16 +39,16 @@ function Login() {
         >
           <Snackbar
             open={openSnackbar}
-            autoHideDuration={2000} 
+            autoHideDuration={2000}
             onClose={() => setOpenSnackbar(false)}
-            anchorOrigin={{ vertical: "top", horizontal: "center" }} 
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
           >
             <Alert
               onClose={() => setOpenSnackbar(false)}
               severity="success"
               sx={{ width: "100%" }}
             >
-              You are logged in successfully!!! 
+              You are logged in successfully!!!
             </Alert>
           </Snackbar>
         </Box>
@@ -71,17 +71,17 @@ function Login() {
             }}
             validationSchema={validateSchemaForLogin}
             onSubmit={(values, { setErrors }) => {
-              //  authentication and API Calls after vaishnavi give me te API
+              //  authentication and API Calls after vaishnavi give me API
               if (
                 values.mobileno === "1234567890" &&
                 values.password === "pass@123"
               ) {
                 console.log("Form data: ", values);
                 setOpenSnackbar(true);
-                setShowOverlay(true); 
+                setShowOverlay(true);
                 setTimeout(() => {
-                  navigate("/"); 
-                }, 2000); 
+                  navigate("/");
+                }, 2000);
               } else {
                 setErrors({ general: "Invalid username or password" });
               }
