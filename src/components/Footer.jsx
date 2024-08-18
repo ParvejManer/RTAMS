@@ -1,32 +1,34 @@
-// src/components/Footer.js
-import { Box, Typography } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import React from "react";
+import { Box, Typography, Link, Container } from "@mui/material";
 
-function Footer() {
-  const theme = useTheme();
-
+const Footer = () => {
   return (
-    <Box sx={{position:'fixed', width:'100%'}} >
-      <Box
-        sx={{
-          backgroundColor: "#465166",
-          position: "inherit",
-          bottom: 0,
-          width: "100%",
-          p: { xs: 1, sm: 2 },
-        }}
-      >
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          align="center"
-          sx={{ color: theme.palette.primary.contrastText }}
-        >
-          &copy; 2024 RTA Management System
+    <Box
+      component="footer"
+      sx={{
+        py: 0.5,
+        borderTop: "1px solid #E7E7E7",
+        backgroundColor: "#ffffff",
+        textAlign: "center",
+        mt : "auto",
+        padding: "10px 0"
+      }}
+    >
+      <Container maxWidth="lg">
+        <Typography variant="body2" color="textSecondary">
+          © 2024 Road Transport Authority. All rights reserved.
         </Typography>
-      </Box>
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 1 }}>
+          <Link href="#" underline="hover" color="inherit" sx={{ mx: 2 }}>
+            Terms of Service
+          </Link>
+          <Link href="#" underline="hover" color="inherit" sx={{ mx: 2 }}>
+            Privacy
+          </Link>
+        </Box>
+      </Container>
     </Box>
   );
-}
+};
 
 export default Footer;

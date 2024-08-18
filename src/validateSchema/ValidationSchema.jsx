@@ -21,7 +21,9 @@ export const validateSchemaForUserRegistration = Yup.object().shape({
 });
 
 export const validateSchemaForLogin = Yup.object().shape({
-  mobileno: Yup.string().required("Mobile number is required"),
+  mobileno: Yup.string()
+  .matches(/^\d{10}$/, "Invalid mobile number")
+  .required("Mobile number is required"),
   password: Yup.string().required("Password is required"),
 });
 

@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import {
   Container,
-  TextField,
   Button,
   Typography,
   Paper,
   Alert,
   Snackbar,
   Box,
+  Grid,
 } from "@mui/material";
+import TextInput from "../customTextFields/TextInput";
 import { useNavigate } from "react-router-dom";
-import { Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import { validateSchemaForLogin } from "../validateSchema/ValidationSchema";
 
 function Login() {
@@ -54,82 +55,128 @@ function Login() {
         </Box>
       )}
 
-      <Container component="main" maxWidth="xs">
-        <Paper elevation={4} style={{ padding: "2rem", marginTop: "2rem" }}>
-          <Typography
-            variant="h4"
-            component="h1"
-            textAlign="center"
-            gutterBottom
+      <Container component="main" maxWidth="lg">
+        <Grid container spacing={15} sx={{ minHeight: "100vh" }}>
+          {/* Left Side - Login Form */}
+          <Grid
+            item
+            xs={12}
+            md={6}
+            sx={{ display: "flex", alignItems: "center" }}
           >
-            Login
-          </Typography>
-          <Formik
-            initialValues={{
-              mobileno: "",
-              password: "",
-            }}
-            validationSchema={validateSchemaForLogin}
-            onSubmit={(values, { setErrors }) => {
-              //  authentication and API Calls after vaishnavi give me API
-              if (
-                values.mobileno === "1234567890" &&
-                values.password === "pass@123"
-              ) {
-                console.log("Form data: ", values);
-                setOpenSnackbar(true);
-                setShowOverlay(true);
-                setTimeout(() => {
-                  navigate("/");
-                }, 2000);
-              } else {
-                setErrors({ general: "Invalid username or password" });
-              }
-            }}
-          >
-            {({ errors, touched }) => (
-              <Form>
-                {errors.general && (
-                  <Alert severity="error">{errors.general}</Alert>
-                )}
-                <Field
-                  as={TextField}
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="mobileno"
-                  label="Mobile Number"
-                  name="mobileno"
-                  error={touched.mobileno && Boolean(errors.mobileno)}
-                  helperText={touched.mobileno && errors.mobileno}
-                />
-                <Field
-                  as={TextField}
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  error={touched.password && Boolean(errors.password)}
-                  helperText={touched.password && errors.password}
-                />
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  style={{ marginTop: "1rem" }}
+            <Box
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              width="100%"
+            >
+              <Typography
+                variant="h3"
+                component="h1"
+                fontWeight="bold"
+                gutterBottom
+              >
+                Login to the Road Transport Authority
+              </Typography>
+              <Typography variant="subtitle1" color="textSecondary" paragraph>
+                Welcome back! Please enter your credentials to access your
+                account.
+              </Typography>
+              <Paper elevation={4} sx={{ padding: "2rem", marginTop: "1rem" }}>
+                <Formik
+                  initialValues={{
+                    mobileno: "",
+                    password: "",
+                  }}
+                  validationSchema={validateSchemaForLogin}
+                  onSubmit={(values, { setErrors }) => {
+                    if (
+                      values.mobileno === "1234567890" &&
+                      values.password === "pass@123"
+                    ) {
+                      setOpenSnackbar(true);
+                      setShowOverlay(true);
+                      setTimeout(() => {
+                        navigate("/");
+                      }, 2000);
+                    } else {
+                      setErrors({ general: "Invalid username or password" });
+                    }
+                  }}
                 >
-                  Login
-                </Button>
-              </Form>
-            )}
-          </Formik>
-        </Paper>
+                  {({ errors }) => (
+                    <Form>
+                      {errors.general && (
+                        <Alert severity="error">{errors.general}</Alert>
+                      )}
+
+                      <TextInput
+                        label="Mobile Number"
+                        name="mobileno"
+                        margin="normal"
+                        required
+                        fullWidth
+                      />
+
+                      <TextInput
+                        label="Password"
+                        name="password"
+                        type="password"
+                        margin="normal"
+                        required
+                        fullWidth
+                      />
+
+                      <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        sx={{
+                          marginTop: "1rem",
+                          backgroundColor: "#e8702a",
+                          "&:hover": { backgroundColor: "#d45f1c" },
+                        }}
+                      >
+                        Login
+                      </Button>
+
+                      <Box textAlign="center" marginTop="1rem">
+                        <Typography variant="body2" color="textSecondary">
+                          Forgot your password?
+                        </Typography>
+                      </Box>
+                    </Form>
+                  )}
+                </Formik>
+              </Paper>
+            </Box>
+          </Grid>
+
+          
+          <Grid item xs={12} md={6}>
+            <Box
+              sx={{
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                overflow: "hidden",
+                borderRadius: "8px",
+              }}
+            >
+              <img
+                src="https://wallpaperaccess.com/full/229545.jpg"
+                alt="Black Car Mirror Finish Wallpaper"
+                style={{
+                  width: "100%",
+                  height: "80%",
+                  objectFit: "cover",
+                }}
+              />
+            </Box>
+          </Grid>
+        </Grid>
       </Container>
     </>
   );

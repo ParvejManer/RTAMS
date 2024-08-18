@@ -1,38 +1,73 @@
 import React from "react";
-import { Container, Typography, Paper } from "@mui/material";
+import { Container, Typography, Button, Box } from "@mui/material";
 
 const AboutUs = () => {
   return (
-    <Container component="main" maxWidth="md">
-      <Paper elevation={3} style={{ padding: "2rem", marginTop: "2rem" }}>
-        <Typography
-          variant="h4"
-          component="h1"
-          sx={{ textAlign: "center" }}
-          gutterBottom
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+      }}
+    >
+      <Container
+        maxWidth="lg"
+        sx={{
+          flex: 1,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          flexDirection: { xs: "column", md: "row" },
+          py: 4,
+          gap: { xs: 4, md: 8 }, // Added gap between content and image
+        }}
+      >
+        {/* Text Section */}
+        <Box
+          sx={{
+            maxWidth: { xs: "100%", md: "50%" },
+            textAlign: { xs: "center", md: "left" },
+            mb: { xs: 4, md: 0 },
+          }}
         >
-          About Us
-        </Typography>
-        <Typography variant="body1" paragraph>
-          Welcome to the Road Transport Authority Management System. Our mission
-          is to provide efficient and reliable transport services to the public.
-          We strive to enhance the safety, sustainability, and reliability of
-          our road transport infrastructure.
-        </Typography>
-        <Typography variant="body1" paragraph>
-          Our team consists of dedicated professionals who are committed to
-          improving the transport system through innovative solutions and
-          advanced technology. We work closely with various stakeholders,
-          including government agencies, transport operators, and the public, to
-          ensure a seamless and efficient transport experience.
-        </Typography>
-        <Typography variant="body1" paragraph>
-          At the Road Transport Authority, we prioritize customer satisfaction
-          and continuously work towards enhancing our services. Thank you for
-          choosing us as your trusted partner in road transport management.
-        </Typography>
-      </Paper>
-    </Container>
+          <Typography
+            variant="h3"
+            component="h1"
+            sx={{ fontWeight: "bold", mb: 2 }}
+          >
+            About the Road Transport Authority
+          </Typography>
+          <Typography variant="body1" paragraph sx={{ mb: 3 }}>
+            The Road Transport Authority (RTA) is a government agency
+            responsible for managing and regulating all aspects of road
+            transportation in our region. Our mission is to ensure the
+            safety, efficiency, and sustainability of our transportation
+            infrastructure.
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            width: { xs: "100%", md: "500px" },
+            height: "300px",
+            backgroundColor: "#f5f5f5",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: 2,
+            overflow: "hidden",
+          }}
+        >
+          <img
+            src="https://images.pexels.com/photos/26564111/pexels-photo-26564111/free-photo-of-black-and-white-photo-of-a-skoda-superb-on-the-street.jpeg"
+            alt="Black and White Photo of a Skoda Superb on the Street"
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
+        </Box>
+      </Container>
+
+    
+    </Box>
   );
 };
 
