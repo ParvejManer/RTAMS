@@ -97,7 +97,7 @@ function Login() {
                       setOpenSnackbar(true);
                       setShowOverlay(true);
                       setTimeout(() => {
-                        navigate("/");
+                        navigate("/landingpage");
                       }, 2000);
                     } else {
                       setErrors({ general: "Invalid username or password" });

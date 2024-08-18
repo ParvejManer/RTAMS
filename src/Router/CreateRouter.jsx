@@ -10,6 +10,7 @@ import Login from "../pages/Login";
 import UserRegistrationForm from "../components/UserRegistrationForm";
 import VehicleRegistrationForm from "../components/VehicleRegistrationForm";
 import App from "../App";
+import LandingPage from "../pages/LandingPage";
 
 const CreateRouter = createBrowserRouter(
     createRoutesFromElements(
@@ -18,6 +19,7 @@ const CreateRouter = createBrowserRouter(
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/landingpage" element={<LandingPage />}/>
         <Route path="/userform" element={<UserRegistrationForm />} />
         <Route path="/userform/vehicleform" element={<VehicleRegistrationForm />}/>
       </Route>
