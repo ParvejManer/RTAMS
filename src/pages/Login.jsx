@@ -13,11 +13,51 @@ import TextInput from "../customTextFields/TextInput";
 import { useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
 import { validateSchemaForLogin } from "../validateSchema/ValidationSchema";
+import axios from "../api/axios";
 
 function Login() {
   const navigate = useNavigate();
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
+
+  const handleSubmit = async (values, { setErrors }) => {
+    try {
+      const response = await axios.post("/auth/login", values);
+      const token = response.data.token;
+      console.log("Response token", token)
+
+      localStorage.setItem("token", token);
+
+      console.log(response.data);
+
+      console.log('Token', window.localStorage.getItem("token"));
+      setOpenSnackbar(true);
+      setShowOverlay(true);
+      setTimeout(() => {
+        navigate("/landingpage");
+      }, 2000);
+    } catch (error) {
+      if (error.response) {
+        setErrors({ general: error.response.data.message || "Server error" })
+      } else if (error.request) {
+        setErrors({ general: "No response from server" });
+      } else {
+        setErrors({ error })
+      }
+    }
+  };
+
+  //   console.log(values.mobileno);
+  //   if (values.mobileno === "1234567890" && values.password === "pass@123") {
+  //     setOpenSnackbar(true);
+  //     setShowOverlay(true);
+  //     setTimeout(() => {
+  //       navigate("/landingpage");
+  //     }, 2000);
+  //   } else {
+  //     setErrors({ general: "Invalid username or password" });
+  //   }
+  // };
 
   return (
     <>
@@ -57,7 +97,6 @@ function Login() {
 
       <Container component="main" maxWidth="lg">
         <Grid container spacing={15} sx={{ minHeight: "100vh" }}>
-          {/* Left Side - Login Form */}
           <Grid
             item
             xs={12}
@@ -82,29 +121,16 @@ function Login() {
                 Welcome back! Please enter your credentials to access your
                 account.
               </Typography>
-              <Paper elevation={4} sx={{ padding: "2rem", marginTop: "1rem" }}>
+              <Paper elevation={1} sx={{ padding: "2rem", marginTop: "1rem" }}>
                 <Formik
                   initialValues={{
-                    mobileno: "",
+                    mobileNumber: "",
                     password: "",
                   }}
                   validationSchema={validateSchemaForLogin}
-                  onSubmit={(values, { setErrors }) => {
-                    if (
-                      values.mobileno === "1234567890" &&
-                      values.password === "pass@123"
-                    ) {
-                      setOpenSnackbar(true);
-                      setShowOverlay(true);
-                      setTimeout(() => {
-                        navigate("/landingpage");
-                      }, 2000);
-                    } else {
-                      setErrors({ general: "Invalid username or password" });
-                    }
-                  }}
+                  onSubmit={handleSubmit}
                 >
-                  {({ errors }) => (
+                  {({ errors, isSubmitting }) => (
                     <Form>
                       {errors.general && (
                         <Alert severity="error">{errors.general}</Alert>
@@ -112,7 +138,7 @@ function Login() {
 
                       <TextInput
                         label="Mobile Number"
-                        name="mobileno"
+                        name="mobileNumber"
                         margin="normal"
                         required
                         fullWidth
@@ -132,6 +158,7 @@ function Login() {
                         fullWidth
                         variant="contained"
                         color="primary"
+                        disabled={isSubmitting}
                         sx={{
                           marginTop: "1rem",
                           backgroundColor: "#e8702a",
@@ -141,11 +168,11 @@ function Login() {
                         Login
                       </Button>
 
-                      <Box textAlign="center" marginTop="1rem">
+                      {/* <Box textAlign="center" marginTop="1rem">
                         <Typography variant="body2" color="textSecondary">
                           Forgot your password?
                         </Typography>
-                      </Box>
+                      </Box> */}
                     </Form>
                   )}
                 </Formik>
@@ -153,7 +180,6 @@ function Login() {
             </Box>
           </Grid>
 
-          
           <Grid item xs={12} md={6}>
             <Box
               sx={{
