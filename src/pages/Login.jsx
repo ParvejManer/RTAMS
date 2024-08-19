@@ -22,42 +22,31 @@ function Login() {
 
   const handleSubmit = async (values, { setErrors }) => {
     try {
-      const response = await axios.post("/auth/login", values);
+      const response = await axios.post("/auth/login", {
+        mobileNumber: values.mobileNumber, // Ensure this matches the API's expected payload
+        password: values.password,
+      });
+      
       const token = response.data.token;
-      console.log("Response token", token)
 
       localStorage.setItem("token", token);
 
-      console.log(response.data);
-
-      console.log('Token', window.localStorage.getItem("token"));
       setOpenSnackbar(true);
       setShowOverlay(true);
+
       setTimeout(() => {
         navigate("/landingpage");
       }, 2000);
     } catch (error) {
       if (error.response) {
-        setErrors({ general: error.response.data.message || "Server error" })
+        setErrors({ general: error.response.data.message || "Invalid mobile number or password" });
       } else if (error.request) {
         setErrors({ general: "No response from server" });
       } else {
-        setErrors({ error })
+        setErrors({ general: "An error occurred during login" });
       }
     }
   };
-
-  //   console.log(values.mobileno);
-  //   if (values.mobileno === "1234567890" && values.password === "pass@123") {
-  //     setOpenSnackbar(true);
-  //     setShowOverlay(true);
-  //     setTimeout(() => {
-  //       navigate("/landingpage");
-  //     }, 2000);
-  //   } else {
-  //     setErrors({ general: "Invalid username or password" });
-  //   }
-  // };
 
   return (
     <>
@@ -167,12 +156,6 @@ function Login() {
                       >
                         Login
                       </Button>
-
-                      {/* <Box textAlign="center" marginTop="1rem">
-                        <Typography variant="body2" color="textSecondary">
-                          Forgot your password?
-                        </Typography>
-                      </Box> */}
                     </Form>
                   )}
                 </Formik>
