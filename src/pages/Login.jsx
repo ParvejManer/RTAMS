@@ -23,7 +23,7 @@ function Login() {
   const handleSubmit = async (values, { setErrors }) => {
     try {
       const response = await axios.post("/auth/login", {
-        mobileNumber: values.mobileNumber, // Ensure this matches the API's expected payload
+        mobileNumber: values.mobileNumber, 
         password: values.password,
       });
       
@@ -35,7 +35,7 @@ function Login() {
       setShowOverlay(true);
 
       setTimeout(() => {
-        navigate("/landingpage");
+        navigate("/");
       }, 2000);
     } catch (error) {
       if (error.response) {

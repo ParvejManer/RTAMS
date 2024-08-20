@@ -15,7 +15,7 @@ const HomePage = () => {
           justifyContent: "space-between",
           alignItems: "center",
           height: "100vh",
-          padding: "0 110px",
+          padding: "0 85px",
           backgroundColor: "#ffffff",
         }}
       >
@@ -27,7 +27,27 @@ const HomePage = () => {
             Our comprehensive management system helps you efficiently manage
             vehicle registrations, vehicle transfers, and ownership history.
           </Typography>
-          <Box sx={{ marginTop: 4 }}>
+          {localStorage.getItem('token') ?
+          (<Box sx={{ marginTop: 4 }}>
+            <Button
+              variant="contained"
+              color="primary"
+              component={Link}
+              to="/landingpage"
+              sx={{
+                backgroundColor: "#e8702a",
+                "&:hover": { backgroundColor: "#d45f1c" },
+                width: "150px",
+                height: "45px",
+                fontSize: "16px",
+                borderRadius: "5px",
+              }}
+            >
+              Get Started
+            </Button>
+          </Box>)
+          :(
+            <Box sx={{ marginTop: 4,display: 'flex' ,gap: 2 }}>
             <Button
               variant="contained"
               color="primary"
@@ -42,10 +62,32 @@ const HomePage = () => {
                 borderRadius: "5px",
               }}
             >
-              Get Started
+              Login
+            </Button>
+
+            <Button
+              variant="contained"
+              color="primary"
+              component={Link}
+              to="/register"
+              sx={{
+                backgroundColor: "#e8702a",
+                "&:hover": { backgroundColor: "#d45f1c" },
+                width: "150px",
+                height: "45px",
+                fontSize: "16px",
+                borderRadius: "5px",
+              }}
+            >
+              Register
             </Button>
           </Box>
+          
+          )
+          } 
         </Box>
+
+
         <Box
           sx={{ width: { xs: "100%", md: "500px" }, height: "500px", backgroundColor: "#f5f5f5" }}
         >

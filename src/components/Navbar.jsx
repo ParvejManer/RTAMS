@@ -1,10 +1,13 @@
 import { AppBar, Toolbar, Button, Box, IconButton } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LocalShipping } from "@mui/icons-material";
 
 function Navbar() {
+
+  const navigate = useNavigate();
+
   return (
-    <AppBar position="static" elevation={0} sx={{ backgroundColor: "#ffffff" }}>
+    <AppBar position="static" elevation={0} sx={{ backgroundColor: "#f5f5f5" }}>
       <Toolbar sx={{ justifyContent: "space-between" }}>
         <IconButton component={Link} to="/" disableRipple>
           <LocalShipping sx={{ color: "#000000", fontSize: "32px" }} />
@@ -25,7 +28,7 @@ function Navbar() {
             to="/about"
             sx={{ color: "#000000", fontSize: "16px", textTransform: "none" }}
           >
-            About
+            About Us
           </Button>
           <Button
             color="inherit"
@@ -33,16 +36,21 @@ function Navbar() {
             to="/contact"
             sx={{ color: "#000000", fontSize: "16px", textTransform: "none" }}
           >
-            Contact
+            Contact Us
           </Button>
-          <Button
-            color="inherit"
-            component={Link}
-            to="/login"
-            sx={{ color: "#000000", fontSize: "16px", textTransform: "none" }}
-          >
-            Login
-          </Button>
+          {localStorage.getItem('token') &&
+            <Button
+              color="inherit"
+              onClick={() => {
+                localStorage.removeItem('token')
+                navigate('/login')
+                
+              }}
+              sx={{ color: "#000000", fontSize: "16px", textTransform: "none" }}
+            >
+              Logout
+            </Button>
+          }
         </Box>
       </Toolbar>
     </AppBar>
