@@ -6,12 +6,12 @@ import {
 import Home from "../pages/Home";
 import AboutUs from "../pages/AboutUs";
 import ContactUs from "../pages/ContactUs";
-import Login from "../pages/Login";
 import UserRegistrationForm from "../components/UserRegistrationForm";
 import VehicleRegistrationForm from "../components/VehicleRegistrationForm";
 import App from "../App";
 import LandingPage from "../pages/LandingPage";
-import Register from "../pages/Register";
+import Signup from "../pages/Signup";
+import Signin from "../pages/Signin";
 
 const CreateRouter = createBrowserRouter(
     createRoutesFromElements(
@@ -19,8 +19,8 @@ const CreateRouter = createBrowserRouter(
         <Route index element={<Home />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<ContactUs />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/signin" element={<Signin />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/landingpage" element={<LandingPage />}/>
         <Route path="/userform" element={<UserRegistrationForm />} />
         <Route path="/userform/vehicleform" element={<VehicleRegistrationForm />}/>

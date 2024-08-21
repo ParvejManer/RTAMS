@@ -10,12 +10,12 @@ import {
   Grid,
 } from "@mui/material";
 import TextInput from "../customTextFields/TextInput";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
 import { validateSchemaForLogin } from "../validateSchema/ValidationSchema";
 import axios from "../api/axios";
 
-function Login() {
+function Signin() {
   const navigate = useNavigate();
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
@@ -107,7 +107,7 @@ function Login() {
                 Login to the Road Transport Authority
               </Typography>
               <Typography variant="subtitle1" color="textSecondary" paragraph>
-                Welcome back! Please enter your credentials to access your
+                Please enter your credentials to access your
                 account.
               </Typography>
               <Paper elevation={1} sx={{ padding: "2rem", marginTop: "1rem" }}>
@@ -154,8 +154,17 @@ function Login() {
                           "&:hover": { backgroundColor: "#d45f1c" },
                         }}
                       >
-                        Login
+                        Sign In
                       </Button>
+                      <Box sx={{ marginTop: "1rem", textAlign: "center" }}>
+                        <Typography variant="body2">
+                          Don't have an account?{" "}
+                          <Link to="/signup" style={{ textDecoration: "none", color: "#e8702a" }}>
+                            Sign up
+                          </Link>
+                        </Typography>
+                      </Box>
+                      
                     </Form>
                   )}
                 </Formik>
@@ -191,4 +200,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Signin;

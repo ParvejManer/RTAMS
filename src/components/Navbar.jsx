@@ -43,7 +43,7 @@ function Navbar() {
               color="inherit"
               onClick={() => {
                 localStorage.removeItem('token')
-                navigate('/login')
+                navigate('/signin')
                 
               }}
               sx={{ color: "#000000", fontSize: "16px", textTransform: "none" }}

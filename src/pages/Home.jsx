@@ -52,7 +52,7 @@ const HomePage = () => {
               variant="contained"
               color="primary"
               component={Link}
-              to="/login"
+              to="/signin"
               sx={{
                 backgroundColor: "#e8702a",
                 "&:hover": { backgroundColor: "#d45f1c" },
@@ -62,14 +62,14 @@ const HomePage = () => {
                 borderRadius: "5px",
               }}
             >
-              Login
+              Sign In
             </Button>
 
             <Button
               variant="contained"
               color="primary"
               component={Link}
-              to="/register"
+              to="/signup"
               sx={{
                 backgroundColor: "#e8702a",
                 "&:hover": { backgroundColor: "#d45f1c" },
@@ -79,7 +79,7 @@ const HomePage = () => {
                 borderRadius: "5px",
               }}
             >
-              Register
+              Sign Up
             </Button>
           </Box>
           
