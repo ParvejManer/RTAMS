@@ -48,7 +48,7 @@ function Navbar() {
               }}
               sx={{ color: "#000000", fontSize: "16px", textTransform: "none" }}
             >
-              Logout
+              Signout
             </Button>
           }
         </Box>

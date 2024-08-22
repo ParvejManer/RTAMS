@@ -13,6 +13,7 @@ import TextInput from "../customTextFields/TextInput";
 import { Link, useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
 import { validateSchemaForSignup } from "../validateSchema/ValidationSchema";
+import axios from "../api/axios";
 // import axios from "../api/axios";
 
 function Signup() {
@@ -20,45 +21,47 @@ function Signup() {
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [showOverlay, setShowOverlay] = useState(false);
 
-    //   const handleSubmit = async (values, { setErrors }) => {
-    //     try {
-    //       const response = await axios.post("/auth/login", {
-    //         mobileNumber: values.mobileNumber, 
-    //         password: values.password,
-    //       });
-
-    //       const token = response.data.token;
-
-    //       localStorage.setItem("token", token);
-
-    //       setOpenSnackbar(true);
-    //       setShowOverlay(true);
-
-    //       setTimeout(() => {
-    //         navigate("/");
-    //       }, 2000);
-    //     } catch (error) {
-    //       if (error.response) {
-    //         setErrors({ general: error.response.data.message || "Invalid mobile number or password" });
-    //       } else if (error.request) {
-    //         setErrors({ general: "No response from server" });
-    //       } else {
-    //         setErrors({ general: "An error occurred during login" });
-    //       }
-    //     }
-    //   };
+      const handleSubmit = async (values, { setErrors }) => {
+        try {
+          const response = await axios.post("/users/signup", {
+            mobileNumber: values.mobileNumber, 
+            password: values.password,
+            confirmPassword: values.confirmPassword
+          });
 
 
-    const handleSubmit = (values) => {
-        console.log(values)
+          const token = response.data.token;
+          console.log(token)
+          localStorage.setItem("token", token);
 
-        setOpenSnackbar(true);
-        setShowOverlay(true);
+          setOpenSnackbar(true);
+          setShowOverlay(true);
 
-        setTimeout(() => {
+          setTimeout(() => {
             navigate("/signin");
-        }, 2000);
-    }
+          }, 2000);
+        } catch (error) {
+          if (error.response) {
+            setErrors({ general: error.response.data.message || "An error occured during signup"});
+          } else if (error.request) {
+            setErrors({ general: "No response from server" });
+          } else {
+            setErrors({ general: "An error occurred during signup" });
+          }
+        }
+      };
+
+
+    // const handleSubmit = (values) => {
+    //     console.log(values)
+
+    //     setOpenSnackbar(true);
+    //     setShowOverlay(true);
+
+    //     setTimeout(() => {
+    //         navigate("/signin");
+    //     }, 2000);
+    // }
 
     return (
         <>
@@ -126,7 +129,7 @@ function Signup() {
                                     initialValues={{
                                         mobileNumber: "",
                                         password: "",
-                                        confirmpassword: ""
+                                        confirmPassword: ""
                                     }}
                                     validationSchema={validateSchemaForSignup}
                                     onSubmit={handleSubmit}
@@ -157,7 +160,7 @@ function Signup() {
 
                                             <TextInput
                                                 label="Confirm Password"
-                                                name="confirmpassword"
+                                                name="confirmPassword"
                                                 type="password"
                                                 margin="normal"
                                                 required
@@ -207,7 +210,7 @@ function Signup() {
                         >
                             <img
                                 src="https://wallpaperaccess.com/full/229545.jpg"
-                                alt="Black Car r"
+                                alt="Black Car"
                                 style={{
                                     width: "100%",
                                     height: "80%",

@@ -44,7 +44,7 @@ export const validateSchemaForSignup = Yup.object().shape({
       'Password must be 6-20 characters long, start with an uppercase letter, and include at least one digit and one special character.')
     .required('Password is required'),
 
-    confirmpassword: Yup.string()
+    confirmPassword: Yup.string()
       .oneOf([Yup.ref('password'), null], 'Confirm password must be same as password.')
       .required('Confirm password is required')
 })

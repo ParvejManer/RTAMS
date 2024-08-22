@@ -22,8 +22,9 @@ const CreateRouter = createBrowserRouter(
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/landingpage" element={<LandingPage />}/>
-        <Route path="/userform" element={<UserRegistrationForm />} />
-        <Route path="/userform/vehicleform" element={<VehicleRegistrationForm />}/>
+        <Route path="/landingpage/vehicleform" element={<VehicleRegistrationForm/>} />
+        {/* <Route path="/userform" element={<UserRegistrationForm />} />
+        <Route path="/userform/vehicleform" element={<VehicleRegistrationForm />}/> */}
       </Route>
     )
   );

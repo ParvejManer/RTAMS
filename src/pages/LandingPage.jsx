@@ -7,7 +7,7 @@ const LandingPage = () => {
 
  useEffect(()=>{
     if(!localStorage.getItem('token')){
-      navigate('/login')
+      navigate('/signin')
     }
   }, []) 
 
@@ -39,7 +39,7 @@ const LandingPage = () => {
                   variant="contained"
                   color="primary"
                   onClick={()=>{
-                    navigate('/userform')
+                    navigate('/landingpage/vehicleform')
                   }}
                   sx={{
                     marginTop: "1rem",

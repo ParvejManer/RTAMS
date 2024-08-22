@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import { useField } from 'formik';
 const SelectInput = ({ List,label, name, ...props }) => {
-    const [meta, field, helper] = useField(name);
+    const [meta, field] = useField(name);
     return (
         <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">{field.error && field.touched ? `${field.error}` : `${label}`}</InputLabel>
