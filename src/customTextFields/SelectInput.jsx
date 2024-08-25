@@ -1,23 +1,28 @@
-import React from 'react'
-import {
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-} from "@mui/material";
+import React from 'react';
+import { FormControl, InputLabel, Select, MenuItem, FormHelperText } from "@mui/material";
 import { useField } from 'formik';
-const SelectInput = ({ List,label, name, ...props }) => {
-    const [meta, field] = useField(name);
+
+const SelectInput = ({ List, label, name, isObjectList = false, ...props }) => {
+    const [field, meta, helpers] = useField(name);
+
+    // The list I get which will be the form of array 
+    const list = Array.isArray(List) ? List : [];
+
     return (
-        <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">{field.error && field.touched ? `${field.error}` : `${label}`}</InputLabel>
+        <FormControl fullWidth error={meta.touched && !!meta.error}>
+            <InputLabel id={`${name}-label`}>
+                {meta.touched && meta.error ? meta.error : label}
+            </InputLabel>
             <Select
-               {...props} {...meta}
-                defaultValue=""
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                error={field.error && field.touched}
-                label={field.error && field.touched ? `${field.error}` : `${label}`}
+                {...field}
+                {...props}
+                labelId={`${name}-label`}
+                id={`${name}-select`}
+                label={label}
+                value={field.value || ""}
+                onChange={(e) => {
+                    helpers.setValue(e.target.value);
+                }}
                 MenuProps={{
                     PaperProps: {
                         style: {
@@ -27,11 +32,20 @@ const SelectInput = ({ List,label, name, ...props }) => {
                     },
                 }}
             >
-                {List?.map((item) => (
-                    <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
+                {list.map((item, index) => (
+                    <MenuItem
+                        key={isObjectList ? item.fuelType : index} 
+                        value={isObjectList ? item.fuelType : item} 
+                    >
+                        {isObjectList ? item.fuelType : item} 
+                    </MenuItem>
                 ))}
             </Select>
+            {meta.touched && meta.error ? (
+                <FormHelperText>{meta.error}</FormHelperText>
+            ) : null}
         </FormControl>
-    )
-}
+    );
+};
+
 export default SelectInput;

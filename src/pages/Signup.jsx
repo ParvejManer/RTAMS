@@ -31,7 +31,7 @@ function Signup() {
 
 
           const token = response.data.token;
-          console.log(token)
+        //   console.log(token)
           localStorage.setItem("token", token);
 
           setOpenSnackbar(true);

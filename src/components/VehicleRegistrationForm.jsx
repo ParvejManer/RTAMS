@@ -17,7 +17,6 @@ import { Formik, Form } from "formik";
 import { useNavigate } from "react-router-dom";
 import TextInput from "../customTextFields/TextInput";
 import SelectInput from "../customTextFields/SelectInput";
-import { FuelType } from "../constants/FuelConstant";
 import { validateSchemeForVehicleRegistration } from "../validateSchema/ValidationSchema";
 import axios from "../api/axios";
 
@@ -35,46 +34,79 @@ const VehicleRegistrationForm = () => {
     }
   }, [navigate]);
 
-  const handleClose = () => {
-    setOpen(false);
-    navigate('/');
-  };
+  // const handleClose = () => {
+  //   setOpen(false);
+  //   navigate('/');
+  // };
 
 
   const handleSubmit = async (values, actions) => {
-    setLoading(true);
-    try {
-      const response = await axios.post('api/vehicle/registration', values);
-      setRegistrationNumber(response.data.registrationNumber);
-      setOpen(true);
-    } catch (error) {
-      console.error("Error fetching registration number:", error);
-    } finally {
-      setLoading(false);
-      actions.setSubmitting(false);
-      actions.resetForm();
-    }
+
+    console.log(values)
+
+    // setLoading(true);
+    // try {
+    //   const response = await axios.post('api/vehicle/registration', values);
+    //   setRegistrationNumber(response.data.registrationNumber);
+    //   setOpen(true);
+    // } catch (error) {
+    //   console.error("Error fetching registration number:", error);
+    // } finally {
+    //   setLoading(false);
+    //   actions.setSubmitting(false);
+    //   actions.resetForm();
+    // }
   };
 
   const regDate = new Date();
 
   ///API call for Division
-  const [divisionList, setDivisionList] = useState([]);
+  // const [divisionList, setDivisionList] = useState([]);
 
-  const fetchDivision = async () => {
-    try {
-      const response = await axios.get('/rto-divisions/names');
-      console.log(response);
-      const list = await response.names.json()
-      setDivisionList(list);
-    } catch (error) {
-      console.log("Error fetching divisions:", error);
-    }
+  // const fetchDivision = async () => {
+  //   try {
+  //     const response = await axios.get('/rto-divisions/names');
+  //     console.log(response);
+  //     // const list = await response.names.json()
+  //     const list = response.data
+  //     setDivisionList(list);
+  //   } catch (error) {
+  //     console.log("Error fetching divisions:", error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchDivision();
+  // }, []);
+
+
+  const [divisionList, setDivisionList] = useState([]);
+  const [fuelTypes, setFuelTypes] = useState([])
+
+    const fetchDivision = async () => {
+        try {
+            const response = await axios.get('/rto-divisions/names');
+            console.log(response.data)
+            setDivisionList(response.data);
+        } catch (error) {
+            console.log("Error fetching divisions:", error);
+        }
+    };
+
+    const fetchFuelTypes = async () => {
+      try {
+          const response = await axios.get('/fuelTypes');
+          console.log(response.data)
+          setFuelTypes(response.data);
+      } catch (error) {
+          console.log("Error fetching fuel types:", error);
+      }
   };
 
-  useEffect(() => {
-    fetchDivision();
-  }, []);
+    useEffect(() => {
+        fetchDivision();
+        fetchFuelTypes();
+    }, []);
 
   return (
     <>
@@ -85,7 +117,7 @@ const VehicleRegistrationForm = () => {
           lastName: "",
           streetName: "",
           city: "",
-          state1: "",
+          state1: "Maharashtra",
           pincode: "",
           contactNo: "",
           email: "",
@@ -97,7 +129,7 @@ const VehicleRegistrationForm = () => {
           vinNumber: "",
           fuelType: "",
           rtoDivisionId: "",
-          state2: "",
+          state2: "Maharashtra",
           registrationDate: regDate.toLocaleDateString(),
           acceptTerms: false, 
         }}
@@ -174,8 +206,16 @@ const VehicleRegistrationForm = () => {
                       fullWidth
                     />
                   </Grid>
-                  <Grid item xs={12} sm={4} sx={{ marginY: 2 }}>
-                    <SelectInput List={FuelType} name="state1" label="State" />
+                  <Grid item xs={12} sm={4}>
+                    {/* <SelectInput List={FuelType} name="state1" label="State" /> */}
+                    <TextInput
+                      label="State"
+                      name="state1"
+                      margin="normal"
+                      InputProps={{readOnly: true}}
+                      required
+                      fullWidth
+                    />
                   </Grid>
                   <Grid item xs={12} sm={4}>
                     <TextInput
@@ -266,15 +306,22 @@ const VehicleRegistrationForm = () => {
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
-                    <SelectInput List={FuelType} name="fuelType" label="Fuel Type" />
+                    <SelectInput List={fuelTypes} name="fuelType" label="Fuel Type" isObjectList={true}/>
                   </Grid>
                   <Grid item xs={12} sm={6}>
-                    <SelectInput List={FuelType} name="state2" label="State" />
+                  <TextInput
+                      label="State"
+                      name="state2"
+                      // margin="normal"
+                      InputProps={{readOnly: true}}
+                      required
+                      fullWidth
+                    />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <SelectInput List={divisionList} name="rtoDivisionId" label="Division" />
+                  <Grid item xs={12} sm={6} marginY={2}>
+                    <SelectInput List={divisionList} name="rtoDivisionId" label="Division" isObjectList={false}/>
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={12} sm={6} marginY={2}>
                     <TextInput
                       label="Registration Date"
                       name="registrationDate"
@@ -316,7 +363,8 @@ const VehicleRegistrationForm = () => {
                       "&:hover": { backgroundColor: "#d45f1c" },
                     }}
                   >
-                    {loading ? <CircularProgress size={24} /> : 'Register Vehicle'}
+                    {/* {loading ? <CircularProgress size={24} /> : 'Register Vehicle'} */}
+                    Register Vehicle
                   </Button>
                 </Box>
               </Form>
@@ -326,7 +374,7 @@ const VehicleRegistrationForm = () => {
       </Formik>
 
       {/* Dialog */}
-      <Dialog
+      {/* <Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
@@ -362,7 +410,7 @@ const VehicleRegistrationForm = () => {
             OK
           </Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
     </>
   );
 };
