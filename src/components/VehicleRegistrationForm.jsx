@@ -100,53 +100,116 @@ const VehicleRegistrationForm = () => {
   // };
 
 
+  // const handleSubmit = async (values, actions) => {
+  //   console.log(values);
+  //   setLoading(true);
+  
+  //   try {
+  //     // Post owner data and get ownerId from the response
+  //     const ownerResponse = await axios.post('/owners', {
+  //       firstName: values.firstName,
+  //       middleName: values.middleName,
+  //       lastName: values.lastName,
+  //       streetName: values.streetName,
+  //       city: values.city,
+  //       state1: values.state1,
+  //       pincode: values.pincode,
+  //       contactNo: values.contactNo,
+  //       email: values.email,
+  //       aadharNo: values.aadharNo,
+  //     });
+  
+  //     // const ownerId = ownerResponse.data.id; 
+  //     const {data} = ownerResponse;
+
+  //     const ownerId = data.id;
+
+  //     console.log(ownerId)
+      
+  //     // Post vehicle data with the ownerId
+  //     const vehicleResponse = await axios.post('/vehicles', {
+  //       make: values.make,
+  //       model: values.model,
+  //       yearOfManufacturing: values.yearOfManufacturing,
+  //       color: values.color,
+  //       vinNumber: values.vinNumber,
+  //       fuelType: values.fuelType,
+  //       state2: values.state2,
+  //       rtoDivisionId: values.rtoDivisionId,
+  //       // registrationDate: values.registrationDate,
+  //       ownerId: ownerId, // Attach the ownerId here
+  //     });
+  
+  //     setRegistrationNumber(vehicleResponse.data.registrationNumber);
+  //     console.log(vehicleResponse.data.registrationNumber);
+  //     setOpen(true);
+  //   } catch (error) {
+  //     console.error("Error registering vehicle:", error);
+  //   } finally {
+  //     setLoading(false);
+  //     actions.setSubmitting(false);
+  //     actions.resetForm();
+  //   }
+  // };
+  
+
   const handleSubmit = async (values, actions) => {
     console.log(values);
     setLoading(true);
-  
+
     try {
-      // Post owner data and get ownerId from the response
-      const ownerResponse = await axios.post('/owners', {
-        firstName: values.firstName,
-        middleName: values.middleName,
-        lastName: values.lastName,
-        streetName: values.streetName,
-        city: values.city,
-        state1: values.state1,
-        pincode: values.pincode,
-        contactNo: values.contactNo,
-        email: values.email,
-        aadharNo: values.aadharNo,
-      });
-  
-      const ownerId = ownerResponse.data.ownerId; 
-      
-      // Post vehicle data with the ownerId
-      const vehicleResponse = await axios.post('/vehicles', {
-        make: values.make,
-        model: values.model,
-        yearOfManufacturing: values.yearOfManufacturing,
-        color: values.color,
-        vinNumber: values.vinNumber,
-        fuelType: values.fuelType,
-        state2: values.state2,
-        rtoDivisionId: values.rtoDivisionId,
-        // registrationDate: values.registrationDate,
-        ownerId: ownerId, // Attach the ownerId here
-      });
-  
-      setRegistrationNumber(vehicleResponse.data.registrationNumber);
-      console.log(vehicleResponse.data.registrationNumber);
-      setOpen(true);
+        // Post owner data and get ownerId from the response
+        const ownerResponse = await axios.post('/owners', {
+            firstName: values.firstName,
+            middleName: values.middleName,
+            lastName: values.lastName,
+            streetName: values.streetName,
+            city: values.city,
+            state1: values.state1,
+            pincode: values.pincode,
+            contactNo: values.contactNo,
+            email: values.email,
+            aadharNo: values.aadharNo,
+        });
+
+        // Extract the ownerId from the response
+        const { data: ownerData } = ownerResponse;
+        const ownerId = ownerData.id;
+
+        console.log("Owner ID:", ownerId);
+
+        // Post vehicle data with the ownerId
+        const vehicleResponse = await axios.post('/vehicles', {
+            make: values.make,
+            model: values.model,
+            yearOfManufacturing: values.yearOfManufacturing,
+            color: values.color,
+            vinNumber: values.vinNumber,
+            fuelType: values.fuelType,
+            state2: values.state2,
+            rtoDivisionId: values.rtoDivisionId,
+            ownerId: ownerId, 
+        });
+
+        // Extract the registration number from the vehicle response
+        const { data: vehicleData } = vehicleResponse;
+        const registrationNumber = vehicleData.registrationNumber;
+
+        console.log("Registration Number:", registrationNumber);
+
+        // Show the registration number in a dialog or alert
+        setRegistrationNumber(registrationNumber);
+        setOpen(true);
     } catch (error) {
-      console.error("Error registering vehicle:", error);
+        console.error("Error registering vehicle:", error);
     } finally {
-      setLoading(false);
-      actions.setSubmitting(false);
-      actions.resetForm();
+        setLoading(false);
+        actions.setSubmitting(false);
+        // actions.resetForm();
     }
-  };
-  
+};
+
+
   const regDate = new Date();
 
   //API call for Division
@@ -157,7 +220,7 @@ const VehicleRegistrationForm = () => {
 
     const fetchDivision = async () => {
         try {
-            const response = await axios.get('/rto-divisions/names');
+            const response = await axios.get('/rto-divisions');
             console.log(response.data)
             setDivisionList(response.data);
         } catch (error) {
@@ -391,7 +454,7 @@ const VehicleRegistrationForm = () => {
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} marginY={2}>
-                    <SelectInput List={divisionList} name="rtoDivisionId" label="Division" isObjectList={false}/>
+                    <SelectInput List={divisionList} name="rtoDivisionId" label="Division" isObjectList={true}/>
                   </Grid>
                   <Grid item xs={12} sm={6} marginY={2}>
                     <TextInput

@@ -63,8 +63,10 @@ export const validateSchemeForVehicleRegistration = Yup.object().shape({
   .required('Pincode is required')
   .matches(/^\d{6}$/, 'Pincode must be exactly 6 digits'),
   contactNo: Yup.string()
-  .matches(/^\d{10}$/, "Invalid mobile number")
-  .required("Contact Number is required"),
+  .matches(/^\d+$/, 'Mobile number must contain only digits')
+    .length(10, 'Mobile number must be exactly 10 digits long')
+    .matches(/^[6789]/, 'Mobile number must start with 6, 7, 8, or 9')
+    .required('Mobile number is required'),
   email: Yup.string()
   .email("Invalid email format")
   .required("Email is required"),
@@ -83,6 +85,6 @@ export const validateSchemeForVehicleRegistration = Yup.object().shape({
     .matches(/^[A-HJ-NPR-Z0-9]{17}$/, 'VIN Number must be 17 characters long and can only include uppercase letters (A-H, J-N, P-R, Z) and digits (0-9)'),
   fuelType: Yup.string().required("Fuel Type is required"),
   state2: Yup.string().required("State is required"),
-  rtoDivisionId: Yup.string().required("RTO Division is required"),
+  rtoDivisionId: Yup.number().required("RTO Division is required"),
 });
 
