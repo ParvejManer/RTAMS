@@ -5,7 +5,7 @@ import { useField } from 'formik';
 const SelectInput = ({ List, label, name, isObjectList = false, ...props }) => {
     const [field, meta, helpers] = useField(name);
 
-    // The list I get which will be the form of array 
+    // Ensure that List is an array
     const list = Array.isArray(List) ? List : [];
 
     return (
@@ -34,8 +34,8 @@ const SelectInput = ({ List, label, name, isObjectList = false, ...props }) => {
             >
                 {list.map((item, index) => (
                     <MenuItem
-                        key={isObjectList ? item.fuelType : index} 
-                        value={isObjectList ? item.fuelType : item} 
+                        key={isObjectList ? item.fuelType : index} // Use a unique key for each item
+                        value={isObjectList ? item.fuelType : item} // Use item.fuelType for objects, or item for primitive values
                     >
                         {isObjectList ? item.fuelType : item} 
                     </MenuItem>

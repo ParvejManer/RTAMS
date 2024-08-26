@@ -34,50 +34,122 @@ const VehicleRegistrationForm = () => {
     }
   }, [navigate]);
 
-  // const handleClose = () => {
-  //   setOpen(false);
-  //   navigate('/');
+  const handleClose = () => {
+    setOpen(false);
+    navigate('/');
+  };
+
+
+  // const handleSubmit = async (values, actions) => {
+
+  //   console.log(values)
+
+  //   // setLoading(true);
+  //   // try {
+  //   //   const response = await axios.post('api/vehicle/registration', values);
+  //   //   setRegistrationNumber(response.data.registrationNumber);
+  //   //   setOpen(true);
+  //   // } catch (error) {
+  //   //   console.error("Error fetching registration number:", error);
+  //   // } finally {
+  //   //   setLoading(false);
+  //   //   actions.setSubmitting(false);
+  //   //   actions.resetForm();
+  //   // }
+
+  //   try {
+  //     // Post owner data
+  //     await axios.post('/owners', {
+  //       firstName: values.firstName,
+  //       middleName: values.middleName,
+  //       lastName: values.lastName,
+  //       streetName: values.streetName,
+  //       city: values.city,
+  //       state1: values.state1,
+  //       pincode: values.pincode,
+  //       contactNo: values.contactNo,
+  //       email: values.email,
+  //       aadharNo: values.aadharNo,
+  //     });
+
+
+  //     // Post vehicle data and get registration number
+  //     const response = await axios.post('/vehicles', {
+  //       make: values.make,
+  //       model: values.model,
+  //       yearOfManufacturing: values.yearOfManufacturing,
+  //       color: values.color,
+  //       vinNumber: values.vinNumber,
+  //       fuelType: values.fuelType,
+  //       state2: values.state2,
+  //       rtoDivisionId: values.rtoDivisionId,
+  //       // registrationDate: values.registrationDate,
+  //       // ownerId: 1,  // Assuming you have the ownerId from the first API or from localStorage/session
+  //     });
+
+  //     setRegistrationNumber(response.data.registrationNumber);
+  //     console.log(response.data.registrationNumber)
+  //     setOpen(true);
+  //   } catch (error) {
+  //     console.error("Error registering vehicle:", error);
+  //   } finally {
+  //     setLoading(false);
+  //     actions.setSubmitting(false);
+  //     actions.resetForm();
+  //   }
   // };
 
 
   const handleSubmit = async (values, actions) => {
-
-    console.log(values)
-
-    // setLoading(true);
-    // try {
-    //   const response = await axios.post('api/vehicle/registration', values);
-    //   setRegistrationNumber(response.data.registrationNumber);
-    //   setOpen(true);
-    // } catch (error) {
-    //   console.error("Error fetching registration number:", error);
-    // } finally {
-    //   setLoading(false);
-    //   actions.setSubmitting(false);
-    //   actions.resetForm();
-    // }
+    console.log(values);
+    setLoading(true);
+  
+    try {
+      // Post owner data and get ownerId from the response
+      const ownerResponse = await axios.post('/owners', {
+        firstName: values.firstName,
+        middleName: values.middleName,
+        lastName: values.lastName,
+        streetName: values.streetName,
+        city: values.city,
+        state1: values.state1,
+        pincode: values.pincode,
+        contactNo: values.contactNo,
+        email: values.email,
+        aadharNo: values.aadharNo,
+      });
+  
+      const ownerId = ownerResponse.data.ownerId; 
+      
+      // Post vehicle data with the ownerId
+      const vehicleResponse = await axios.post('/vehicles', {
+        make: values.make,
+        model: values.model,
+        yearOfManufacturing: values.yearOfManufacturing,
+        color: values.color,
+        vinNumber: values.vinNumber,
+        fuelType: values.fuelType,
+        state2: values.state2,
+        rtoDivisionId: values.rtoDivisionId,
+        // registrationDate: values.registrationDate,
+        ownerId: ownerId, // Attach the ownerId here
+      });
+  
+      setRegistrationNumber(vehicleResponse.data.registrationNumber);
+      console.log(vehicleResponse.data.registrationNumber);
+      setOpen(true);
+    } catch (error) {
+      console.error("Error registering vehicle:", error);
+    } finally {
+      setLoading(false);
+      actions.setSubmitting(false);
+      actions.resetForm();
+    }
   };
-
+  
   const regDate = new Date();
 
-  ///API call for Division
-  // const [divisionList, setDivisionList] = useState([]);
-
-  // const fetchDivision = async () => {
-  //   try {
-  //     const response = await axios.get('/rto-divisions/names');
-  //     console.log(response);
-  //     // const list = await response.names.json()
-  //     const list = response.data
-  //     setDivisionList(list);
-  //   } catch (error) {
-  //     console.log("Error fetching divisions:", error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchDivision();
-  // }, []);
+  //API call for Division
 
 
   const [divisionList, setDivisionList] = useState([]);
@@ -374,7 +446,7 @@ const VehicleRegistrationForm = () => {
       </Formik>
 
       {/* Dialog */}
-      {/* <Dialog
+      <Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
@@ -410,7 +482,7 @@ const VehicleRegistrationForm = () => {
             OK
           </Button>
         </DialogActions>
-      </Dialog> */}
+      </Dialog>
     </>
   );
 };

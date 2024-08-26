@@ -1,6 +1,6 @@
 import { AppBar, Toolbar, Button, Box, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import { LocalShipping, Padding } from "@mui/icons-material";
+import { LocalShipping } from "@mui/icons-material";
 import { useState } from "react";
 
 function Navbar() {
