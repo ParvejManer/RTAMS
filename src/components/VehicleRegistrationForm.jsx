@@ -528,7 +528,7 @@ const VehicleRegistrationForm = () => {
         <DialogContent>
           <DialogContentText id="alert-dialog-description" sx={{ fontSize: "18px", color: "#333" }}>
             Your vehicle has been successfully registered. The registration number is:
-            <Typography component="span" sx={{ fontWeight: "bold", color: "#000" }}>
+            <Typography component="span" sx={{ fontWeight: "bold", color: "#000", fontSize: "22px" }}>
               {registrationNumber}
             </Typography>
           </DialogContentText>
