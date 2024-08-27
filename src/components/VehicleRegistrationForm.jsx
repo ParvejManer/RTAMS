@@ -37,121 +37,7 @@ const VehicleRegistrationForm = () => {
   const handleClose = () => {
     setOpen(false);
     navigate('/');
-  };
-
-
-  // const handleSubmit = async (values, actions) => {
-
-  //   console.log(values)
-
-  //   // setLoading(true);
-  //   // try {
-  //   //   const response = await axios.post('api/vehicle/registration', values);
-  //   //   setRegistrationNumber(response.data.registrationNumber);
-  //   //   setOpen(true);
-  //   // } catch (error) {
-  //   //   console.error("Error fetching registration number:", error);
-  //   // } finally {
-  //   //   setLoading(false);
-  //   //   actions.setSubmitting(false);
-  //   //   actions.resetForm();
-  //   // }
-
-  //   try {
-  //     // Post owner data
-  //     await axios.post('/owners', {
-  //       firstName: values.firstName,
-  //       middleName: values.middleName,
-  //       lastName: values.lastName,
-  //       streetName: values.streetName,
-  //       city: values.city,
-  //       state1: values.state1,
-  //       pincode: values.pincode,
-  //       contactNo: values.contactNo,
-  //       email: values.email,
-  //       aadharNo: values.aadharNo,
-  //     });
-
-
-  //     // Post vehicle data and get registration number
-  //     const response = await axios.post('/vehicles', {
-  //       make: values.make,
-  //       model: values.model,
-  //       yearOfManufacturing: values.yearOfManufacturing,
-  //       color: values.color,
-  //       vinNumber: values.vinNumber,
-  //       fuelType: values.fuelType,
-  //       state2: values.state2,
-  //       rtoDivisionId: values.rtoDivisionId,
-  //       // registrationDate: values.registrationDate,
-  //       // ownerId: 1,  // Assuming you have the ownerId from the first API or from localStorage/session
-  //     });
-
-  //     setRegistrationNumber(response.data.registrationNumber);
-  //     console.log(response.data.registrationNumber)
-  //     setOpen(true);
-  //   } catch (error) {
-  //     console.error("Error registering vehicle:", error);
-  //   } finally {
-  //     setLoading(false);
-  //     actions.setSubmitting(false);
-  //     actions.resetForm();
-  //   }
-  // };
-
-
-  // const handleSubmit = async (values, actions) => {
-  //   console.log(values);
-  //   setLoading(true);
-  
-  //   try {
-  //     // Post owner data and get ownerId from the response
-  //     const ownerResponse = await axios.post('/owners', {
-  //       firstName: values.firstName,
-  //       middleName: values.middleName,
-  //       lastName: values.lastName,
-  //       streetName: values.streetName,
-  //       city: values.city,
-  //       state1: values.state1,
-  //       pincode: values.pincode,
-  //       contactNo: values.contactNo,
-  //       email: values.email,
-  //       aadharNo: values.aadharNo,
-  //     });
-  
-  //     // const ownerId = ownerResponse.data.id; 
-  //     const {data} = ownerResponse;
-
-  //     const ownerId = data.id;
-
-  //     console.log(ownerId)
-      
-  //     // Post vehicle data with the ownerId
-  //     const vehicleResponse = await axios.post('/vehicles', {
-  //       make: values.make,
-  //       model: values.model,
-  //       yearOfManufacturing: values.yearOfManufacturing,
-  //       color: values.color,
-  //       vinNumber: values.vinNumber,
-  //       fuelType: values.fuelType,
-  //       state2: values.state2,
-  //       rtoDivisionId: values.rtoDivisionId,
-  //       // registrationDate: values.registrationDate,
-  //       ownerId: ownerId, // Attach the ownerId here
-  //     });
-  
-  //     setRegistrationNumber(vehicleResponse.data.registrationNumber);
-  //     console.log(vehicleResponse.data.registrationNumber);
-  //     setOpen(true);
-  //   } catch (error) {
-  //     console.error("Error registering vehicle:", error);
-  //   } finally {
-  //     setLoading(false);
-  //     actions.setSubmitting(false);
-  //     actions.resetForm();
-  //   }
-  // };
-  
+  };  
 
   const handleSubmit = async (values, actions) => {
     console.log(values);
@@ -174,7 +60,8 @@ const VehicleRegistrationForm = () => {
 
         // Extract the ownerId from the response
         const { data: ownerData } = ownerResponse;
-        const ownerId = ownerData.id;
+        const ownerId = ownerData?.id;
+        // const fullName = 
 
         console.log("Owner ID:", ownerId);
 
@@ -193,26 +80,37 @@ const VehicleRegistrationForm = () => {
 
         // Extract the registration number from the vehicle response
         const { data: vehicleData } = vehicleResponse;
-        const registrationNumber = vehicleData.registrationNumber;
+        const registrationNumber = vehicleData?.registrationNumber;
+
+        console.log(values.registrationDate)
 
         console.log("Registration Number:", registrationNumber);
 
         // Show the registration number in a dialog or alert
         setRegistrationNumber(registrationNumber);
         setOpen(true);
+
+
+        axios.post('/ownership-history',{
+          ownerId: ownerId,
+          registrtaionNumber: registrationNumber,
+          ownerName: `${values.firstName}  ${values.lastName}`,
+          ownershipStartDate: values.registrationDate,
+        })
+
+        
     } catch (error) {
         console.error("Error registering vehicle:", error);
     } finally {
         setLoading(false);
         actions.setSubmitting(false);
-        // actions.resetForm();
     }
 };
 
 
   const regDate = new Date();
 
-  //API call for Division
+  //API call for Division and fuel list 
 
 
   const [divisionList, setDivisionList] = useState([]);
@@ -460,6 +358,7 @@ const VehicleRegistrationForm = () => {
                     <TextInput
                       label="Registration Date"
                       name="registrationDate"
+                      required
                       InputProps={{ readOnly: true }}
                       fullWidth
                     />
@@ -498,8 +397,8 @@ const VehicleRegistrationForm = () => {
                       "&:hover": { backgroundColor: "#d45f1c" },
                     }}
                   >
-                    {/* {loading ? <CircularProgress size={24} /> : 'Register Vehicle'} */}
-                    Register Vehicle
+                    {loading ? <CircularProgress size={24} /> : 'Register Vehicle'}
+                    {/* Register Vehicle */}
                   </Button>
                 </Box>
               </Form>
@@ -527,7 +426,7 @@ const VehicleRegistrationForm = () => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description" sx={{ fontSize: "18px", color: "#333" }}>
-            Your vehicle has been successfully registered. The registration number is:
+            Your vehicle has been successfully registered. The registration number is: 
             <Typography component="span" sx={{ fontWeight: "bold", color: "#000", fontSize: "22px" }}>
               {registrationNumber}
             </Typography>

@@ -12,12 +12,12 @@ const LandingPage = () => {
   }, []) 
 
   return (
-    <Box sx={{ display: "flex", minHeight: "90vh", flexGrow: 1, padding: 2, backgroundColor: '#f5f5f5' }}>
+    <Box sx={{ display: "flex", minHeight: "80vh", flexGrow: 1, padding: 2, backgroundColor: '#f5f5f5' }}>
 
 
       <Container>
 
-        <Grid container spacing={4} justifyContent="center" sx={{ marginTop: 10 }}>
+        <Grid container spacing={4} justifyContent="center" sx={{ marginTop: 2 }}>
 
 
           <Grid item xs={12} sm={6} md={4}>
@@ -103,6 +103,9 @@ const LandingPage = () => {
                   type="submit"
                   variant="contained"
                   color="primary"
+                  onClick={()=>{
+                    navigate('/landingpage/history')
+                  }}
                   sx={{
                     marginTop: "1rem",
                     backgroundColor: "#e8702a",

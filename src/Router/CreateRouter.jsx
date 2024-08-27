@@ -12,6 +12,7 @@ import App from "../App";
 import LandingPage from "../pages/LandingPage";
 import Signup from "../pages/Signup";
 import Signin from "../pages/Signin";
+import OwnershipHistory from "../pages/OwnershipHistory";
 
 const CreateRouter = createBrowserRouter(
     createRoutesFromElements(
@@ -23,6 +24,7 @@ const CreateRouter = createBrowserRouter(
         <Route path="/signup" element={<Signup />} />
         <Route path="/landingpage" element={<LandingPage />}/>
         <Route path="/landingpage/vehicleform" element={<VehicleRegistrationForm/>} />
+        <Route path='/landingpage/history' element={<OwnershipHistory />} />
         {/* <Route path="/userform" element={<UserRegistrationForm />} />
         <Route path="/userform/vehicleform" element={<VehicleRegistrationForm />}/> */}
       </Route>

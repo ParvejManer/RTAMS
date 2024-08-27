@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, Button, Box, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Typography } from "@mui/material";
+import { AppBar, Toolbar, Button, Box, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Typography, CircularProgress } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { LocalShipping } from "@mui/icons-material";
 import { useState } from "react";
@@ -7,11 +7,18 @@ function Navbar() {
 
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSignout = () => {
     localStorage.removeItem('token')
     setOpen(false)
-    navigate('/signin')
+
+    setLoading(true)
+    setTimeout(()=>{
+      setLoading(false)
+      navigate('/signin')
+    },3000)
+    
   }
 
   const handleOpenDialog = () => {
@@ -23,7 +30,7 @@ function Navbar() {
   }
 
   return (
-    <AppBar position="static" elevation={0} sx={{ backgroundColor: "#f5f5f5" }}>
+    <AppBar position="static" elevation={0} sx={{ backgroundColor: "#f5f5f5", height: 70 }}>
       <Toolbar sx={{ justifyContent: "space-between" }}>
         <IconButton component={Link} to="/" disableRipple>
           <LocalShipping sx={{ color: "#000000", fontSize: "32px" }} />
@@ -66,7 +73,31 @@ function Navbar() {
         </Box>
       </Toolbar>
 
-      <Dialog
+
+      <Box sx={{ textAlign: 'center', mt: 4 }}>
+      {loading ? (
+        <Box  sx={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(255, 255, 255, 0.5)',
+          backdropFilter: "blur(10px)",
+          zIndex: 9999, 
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'column'
+        }}>
+          <CircularProgress sx={{color: "#e8702a", size: 70}}/>
+          <Typography variant="h4" sx={{ mt: 2, color: "black" }}>
+            Signing out...
+          </Typography>
+        </Box>
+      ) : (
+        <>
+          <Dialog
         open={open}
         onClose={handleCloseDialog}
         sx={{
@@ -122,6 +153,10 @@ function Navbar() {
           </Button>
         </DialogActions>
       </Dialog>
+        </>
+      )}
+        </Box>
+      
     </AppBar>
   );
 }
