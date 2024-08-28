@@ -91,32 +91,14 @@ const OwnershipHistory = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {ownershipData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-                <TableRowStyled key={row.registrationNumber}>
+              {ownershipData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
+                <TableRowStyled key={`${row.registrationNumber}-${index}`}>
                   <TableCell>{row.registrationNumber}</TableCell>
                   <TableCell>{row.ownerName}</TableCell>
-                  <TableCell>{new Date(row.startDate).toLocaleDateString()}</TableCell>
-                  <TableCell>{row.endDate ? new Date(row.endDate).toLocaleDateString() : '-'}</TableCell>
+                  <TableCell>{new Date(row.ownershipStartDate).toLocaleDateString()}</TableCell>
+                  <TableCell>{row.endDate ? new Date(row.ownershipEndDate).toLocaleDateString() : '-'}</TableCell>
                 </TableRowStyled>
               ))}
-              {/* <TableRowStyled>
-                <TableCell>MH09KS0001</TableCell>
-                <TableCell>Vaishnavi Moharekar</TableCell>
-                <TableCell>26/08/2024</TableCell>
-                <TableCell>Present</TableCell>
-              </TableRowStyled>
-              <TableRowStyled>
-                <TableCell>MH09KS0001</TableCell>
-                <TableCell>Vaishnavi Moharekar</TableCell>
-                <TableCell>26/08/2024</TableCell>
-                <TableCell>Present</TableCell>
-              </TableRowStyled>
-              <TableRowStyled>
-                <TableCell>MH09KS0001</TableCell>
-                <TableCell>Vaishnavi Moharekar</TableCell>
-                <TableCell>26/08/2024</TableCell>
-                <TableCell>Present</TableCell>
-              </TableRowStyled> */}
             </TableBody>
           </Table>
           <TablePagination

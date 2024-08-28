@@ -36,7 +36,7 @@ const VehicleRegistrationForm = () => {
 
   const handleClose = () => {
     setOpen(false);
-    navigate('/');
+    navigate('/landingpage');
   };  
 
   const handleSubmit = async (values, actions) => {
@@ -61,7 +61,6 @@ const VehicleRegistrationForm = () => {
         // Extract the ownerId from the response
         const { data: ownerData } = ownerResponse;
         const ownerId = ownerData?.id;
-        // const fullName = 
 
         console.log("Owner ID:", ownerId);
 
@@ -93,9 +92,9 @@ const VehicleRegistrationForm = () => {
 
         axios.post('/ownership-history',{
           ownerId: ownerId,
-          registrtaionNumber: registrationNumber,
+          registrationNumber: registrationNumber,
           ownerName: `${values.firstName}  ${values.lastName}`,
-          ownershipStartDate: values.registrationDate,
+          ownershipStartDate: values.registrationDate ,
         })
 
         
@@ -107,8 +106,12 @@ const VehicleRegistrationForm = () => {
     }
 };
 
-
+ 
+  // Example usage:
   const regDate = new Date();
+  
+  // console.log(regDate)
+  
 
   //API call for Division and fuel list 
 
