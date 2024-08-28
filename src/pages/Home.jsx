@@ -104,7 +104,7 @@ const HomePage = () => {
         </Box>
       </Box>
 
-      <Box sx={{ paddingY: 8, backgroundColor: "#f5f5f5" }}>
+      <Box sx={{ paddingY: 2, backgroundColor: "#f5f5f5" }}>
         <Container>
           <Typography
             variant="h6"

@@ -45,7 +45,7 @@ function Navbar() {
   };
 
   return (
-    <AppBar position="static" elevation={0} sx={{ backgroundColor: "#f5f5f5", height: 70 }}>
+    <AppBar position="sticky" elevation={1} sx={{ backgroundColor: "#f5f5f5", height: 70 }}>
       <Toolbar sx={{ justifyContent: "space-between" }}>
         <IconButton component={Link} to="/" disableRipple>
           <LocalShipping sx={{ color: "#000000", fontSize: "32px" }} />
