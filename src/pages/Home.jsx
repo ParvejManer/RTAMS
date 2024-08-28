@@ -15,7 +15,7 @@ const HomePage = () => {
           justifyContent: "space-between",
           alignItems: "center",
           height: "100vh",
-          padding: "0 92px",
+          padding: "0 94px",
           backgroundColor: "#ffffff",
         }}
       >

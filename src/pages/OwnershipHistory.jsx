@@ -12,7 +12,6 @@ import {
   Box,
   TablePagination
 } from '@mui/material';
-// import axios from 'axios';
 import axios from '../api/axios';
 import styled from "@emotion/styled";
 import { useNavigate } from 'react-router-dom';
@@ -55,12 +54,12 @@ const OwnershipHistory = () => {
   }, []);
 
   // Handle page change
-  const handleChangePage = (event ,newPage) => {
+  const changePage = (event ,newPage) => {
     setPage(newPage);
   };
 
   // Handle rows per page change
-  const handleChangeRowsPerPage = (event) => {
+  const changeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
@@ -107,8 +106,8 @@ const OwnershipHistory = () => {
             count={ownershipData.length}
             rowsPerPage={rowsPerPage}
             page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
+            onPageChange={changePage}
+            onRowsPerPageChange={changeRowsPerPage}
           />
         </TableContainer>
       </Box>
