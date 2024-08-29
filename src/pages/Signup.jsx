@@ -31,10 +31,11 @@ function Signup() {
                 middleName: values.middleName,
                 lastName: values.lastName,
                 streetName: values.streetName,
-                city: values.citynTown,
+                city: values.city,
+                state1: values.state1,
                 pincode: values.pincode,
                 email: values.email,
-                aadharNumber: values.adhaarNumber,
+                aadharNumber: values.aadharNumber,
                 mobileNumber: values.mobileNumber,
                 password: values.password,
                 confirmPassword: values.confirmPassword
@@ -182,7 +183,7 @@ function Signup() {
                                                 <Grid item xs={12} sm={4}>
                                                     <TextInput
                                                         label="City/Town"
-                                                        name="citynTown"
+                                                        name="city"
                                                         margin="normal"
                                                         required
                                                         fullWidth
@@ -227,7 +228,7 @@ function Signup() {
                                                 <Grid item xs={12} sm={12}>
                                                     <TextInput
                                                         label="Aadhaar Number"
-                                                        name="adhaarNumber"
+                                                        name="aadharNumber"
                                                         margin="normal"
                                                         required
                                                         fullWidth

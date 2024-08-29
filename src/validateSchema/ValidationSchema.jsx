@@ -39,7 +39,7 @@ export const validateSchemaForSignup = Yup.object().shape({
   middleName: Yup.string("Middle name should only contain letters."),
   lastName: Yup.string().required("Last Name is required"),
   streetName: Yup.string().required("Street Name is required"),
-  citynTown: Yup.string().required("City/Town Name is required"),
+  city: Yup.string().required("City/Town Name is required"),
   state1: Yup.string().required("State is required"),
   pincode: Yup.string()
     .matches(/^4\d{5}$/, "Invalid Pincode")
@@ -52,7 +52,7 @@ export const validateSchemaForSignup = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email format")
     .required("Email is required"),
-  adhaarNumber: Yup.string()
+  aadharNumber: Yup.string()
     .matches(/^\d{12}$/, "Invalid Adhaar number")
     .required("Adhaar Number is required"),
 
