@@ -15,11 +15,11 @@ const HomePage = () => {
           justifyContent: "space-between",
           alignItems: "center",
           height: "100vh",
-          padding: "0 94px",
-          backgroundColor: "#ffffff",
+          padding: "0 30px",
+          backgroundColor: "#ffffff"
         }}
       >
-        <Box sx={{ maxWidth: "600px" }}>
+        <Box sx={{ maxWidth: "800px" }}>
           <Typography variant="h3" fontWeight="bold" sx={{ color: "#000000" }}>
             Streamline Your Road Transport Authority
           </Typography>
@@ -88,8 +88,9 @@ const HomePage = () => {
         </Box>
 
 
+        
         <Box
-          sx={{ width: { xs: "100%", md: "500px" }, height: "500px", backgroundColor: "#f5f5f5" }}
+          sx={{ width: { xs: "0px", md: "500px", }, height: "500px", backgroundColor: "#f5f5f5" }}
         >
           <img
             src="https://images.pexels.com/photos/70912/pexels-photo-70912.jpeg"
@@ -104,11 +105,11 @@ const HomePage = () => {
         </Box>
       </Box>
 
-      <Box sx={{ paddingY: 2, backgroundColor: "#f5f5f5" }}>
+      <Box sx={{ paddingY: 1, backgroundColor: "#f5f5f5" }}>
         <Container>
           <Typography
             variant="h6"
-            sx={{ color: "#7f7f7f", textAlign: "center", marginBottom: 2 }}
+            sx={{ color: "#000000", textAlign: "center", marginBottom: 2 }}
           >
             Key Features
           </Typography>

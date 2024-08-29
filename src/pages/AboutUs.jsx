@@ -19,7 +19,7 @@ const AboutUs = () => {
           justifyContent: "space-between",
           flexDirection: { xs: "column", md: "row" },
           py: 4,
-          gap: { xs: 4, md: 8 }, // Added gap between content and image
+          gap: { xs: 4, md: 8 }, 
         }}
       >
         {/* Text Section */}

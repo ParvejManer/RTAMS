@@ -11,7 +11,7 @@ const TextInput = ({ label, ...props }) => {
         {...field}
         {...props}
         label={label}
-        placeholder={label}
+        // placeholder={label}
         // autoComplete='off'
         InputLabelProps={{shrink: true}}
         error={meta.touched && Boolean(meta.error)}
