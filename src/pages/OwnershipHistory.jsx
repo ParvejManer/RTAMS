@@ -65,7 +65,7 @@ const OwnershipHistory = () => {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ height: "100%", paddingY: 5 }}>
+    <Container maxWidth="lg" sx={{ minHeight: "85vh", paddingY: 5 }}>
       <Box mt={4} mb={2}>
         <Typography variant="h2" fontWeight="bold" component="h1" gutterBottom>
           Vehicle Ownership History
@@ -73,6 +73,7 @@ const OwnershipHistory = () => {
         <Typography variant="subtitle1" color="textSecondary">
           View the complete ownership history of vehicle.
         </Typography>
+        
       </Box>
 
       <Box mt={2}>

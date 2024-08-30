@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Box, Grid, Paper, Typography, Button, Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const LandingPage = () => {
           <Grid item xs={12} sm={6} md={4}>
             <Paper elevation={3} sx={{ padding: 2, display: 'flex', flexDirection: 'column', height: '100%' }}>
               <img
-                src="https://www.abaautoregistrations.com/images/content__images/regestrtn%20renewel.jpg"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoo12UgRICgou6rEVtU-UZ61u_4z0YWSlpM6RzSK7wlT0THSJUiF_21argjXGrCkx388o&usqp=CAU"
                 alt="Vehicle Registration"
                 style={{ width: '100%', height: '100%', display: 'block' }}
               />
@@ -31,16 +32,18 @@ const LandingPage = () => {
                 Vehicle Registration
               </Typography>
               <Typography align="center">
-                Description or explanation about the first feature.
+              Easily register new vehicles and access comprehensive vehicle history records.
               </Typography>
               <Box sx={{ textAlign: 'center', marginTop: 2 }}>
                 <Button
                   type="submit"
                   variant="contained"
                   color="primary"
-                  onClick={()=>{
-                    navigate('/landingpage/vehicleform')
-                  }}
+                  // onClick={()=>{
+                  //   navigate('/landingpage/vehicleform')
+                  // }}
+                  component={Link}
+                  to='vehicleform'
                   sx={{
                     marginTop: "1rem",
                     backgroundColor: "#e8702a",
@@ -65,13 +68,15 @@ const LandingPage = () => {
                 Vehicle Transfer
               </Typography>
               <Typography align="center">
-                Description or explanation about the second feature.
+              Easily transfer ownership and update vehicle records.
               </Typography>
               <Box sx={{ textAlign: 'center', marginTop: 2 }}>
               <Button
                   type="submit"
                   variant="contained"
                   color="primary"
+                  component={Link}
+                  to="transfer"
                   sx={{
                     marginTop: "1rem",
                     backgroundColor: "#e8702a",
@@ -96,16 +101,18 @@ const LandingPage = () => {
                 Ownership History
               </Typography>
               <Typography align="center">
-                Description or explanation about the third feature.
+              Access detailed ownership history records for each vehicle in your system.
               </Typography>
               <Box sx={{ textAlign: 'center', marginTop: 2 }}>
               <Button
                   type="submit"
                   variant="contained"
                   color="primary"
-                  onClick={()=>{
-                    navigate('/landingpage/history')
-                  }}
+                  // onClick={()=>{
+                  //   navigate('/landingpage/history')
+                  // }}
+                  component={Link}
+                  to='history'
                   sx={{
                     marginTop: "1rem",
                     backgroundColor: "#e8702a",

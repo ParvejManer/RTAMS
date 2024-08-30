@@ -8,8 +8,6 @@ import {
   Snackbar,
   Box,
   Grid,
-  Tabs,
-  Tab,
 } from "@mui/material";
 import TextInput from "../customTextFields/TextInput";
 import { Link, useNavigate } from "react-router-dom";
@@ -17,15 +15,12 @@ import { Form, Formik } from "formik";
 import { validateSchemaForLogin } from "../validateSchema/ValidationSchema";
 import axios from "../api/axios";
 
+
 function Signin() {
   const navigate = useNavigate();
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
-  const [tabValue, setTabValue] = useState(0);
 
-  const handleTabChange = (event, newValue) => {
-    setTabValue(newValue);
-  };
 
   const handleSubmit = async (values, { setErrors }) => {
     try {
@@ -35,7 +30,13 @@ function Signin() {
       });
 
       const token = response.data.token;
+      
+      
       localStorage.setItem("token", token);
+      console.log(token)
+    
+
+    
 
       setOpenSnackbar(true);
       setShowOverlay(true);
@@ -112,26 +113,11 @@ function Signin() {
               >
                 Login to the Road Transport Authority
               </Typography>
+
               <Typography variant="subtitle1" color="textSecondary" paragraph>
-                Please select your role and enter your credentials.
+                Please enter your credentials to access your account.
               </Typography>
 
-              <Grid sx={{paddingLeft: 10}}>
-              <Tabs
-                value={tabValue}
-                onChange={handleTabChange}
-                aria-label="login tabs"
-                TabIndicatorProps={{
-                  style: {
-                    background: '#e8702a',
-                    color: "#e8702a"
-                  }
-                }}
-              >
-                <Tab label="User Login" />
-                <Tab label="Admin Login" />
-              </Tabs>
-              </Grid>
 
               <Paper
                 elevation={2} sx={{ padding: "2rem", marginTop: "1rem" }}
@@ -150,51 +136,27 @@ function Signin() {
                         <Alert severity="error">{errors.general}</Alert>
                       )}
 
-                      {tabValue === 0 && (  // User Login Form
-                        <>
-                          <TextInput
-                            label="Mobile Number"
-                            name="mobileNumber"
-                            margin="normal"
-                            placeholder="0123456789"
-                            required
-                            fullWidth
-                          />
+                      <>
+                        <TextInput
+                          label="Mobile Number"
+                          name="mobileNumber"
+                          margin="normal"
+                          placeholder="0123456789"
+                          required
+                          fullWidth
+                        />
 
-                          <TextInput
-                            label="Password"
-                            name="password"
-                            type="password"
-                            margin="normal"
-                            placeholder="********"
-                            required
-                            fullWidth
-                          />
-                        </>
-                      )}
+                        <TextInput
+                          label="Password"
+                          name="password"
+                          type="password"
+                          margin="normal"
+                          placeholder="********"
+                          required
+                          fullWidth
+                        />
+                      </>
 
-                      {tabValue === 1 && (  // Admin Login Form
-                        <>
-                          <TextInput
-                            label="Mobile Number"
-                            name="mobileNumber1"
-                            margin="normal"
-                            placeholder="Admin Login"
-                            required
-                            fullWidth
-                          />
-
-                          <TextInput
-                            label="Password"
-                            name="password1"
-                            type="password"
-                            margin="normal"
-                            placeholder="********"
-                            required
-                            fullWidth
-                          />
-                        </>
-                      )}
 
                       <Button
                         type="submit"
