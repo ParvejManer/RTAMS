@@ -5,36 +5,31 @@ import { useEffect, useState } from "react";
 import { jwtDecode } from 'jwt-decode';
 function App() {
 
+
   const [role, setRole] = useState('');
-  const[token,setToken]=useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token1 = localStorage.getItem('token');
+    const getToken = localStorage.getItem('token');
 
-    if(token1){
-      setToken(token1);
-    }
-  }, []);
-
-  useEffect(() => {
-    if(token){
+    if(getToken){
       try {
-        const decoded = jwtDecode(token);
-        setRole(decoded.role)
-        console.log(decoded.role)
+        const decoded = jwtDecode(getToken);
+        setRole(decoded.role);
+        console.log(decoded.role);
 
-        if(decoded.role === 'user'){
-          navigate('/');
-        }else{
+        if(decoded.role === 'admin'){
           navigate('/admin')
+        }else{
+          navigate('/')
         }
       } catch (error) {
-        console.error("Error while decoding token", error)
+        console.error("Erroe while decoding token", error);
       }
+    }else {
+      navigate('/signin')
     }
-  }, [token, navigate]);
-
+  },[navigate]);
 
   return (
     <>
