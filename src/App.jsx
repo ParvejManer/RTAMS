@@ -7,26 +7,35 @@ function App() {
 
   const [role, setRole] = useState('');
   const[token,setToken]=useState("");
-  
+  const navigate = useNavigate();
 
-  //  const decoded = jwtDecode(token);  
-  //  const role=decoded.role;
-  // const navigate = useNavigate();
-  // try {
-  //   const decoded = jwtDecode(token);
-  //   setRole(decoded.role)
+  useEffect(() => {
+    const token1 = localStorage.getItem('token');
 
-  //   console.log(decoded);
-  // } catch (error) {
-  //   console.error('Error decoding token:', error);
-  // }
+    if(token1){
+      setToken(token1);
+    }
+  }, []);
 
-  // useEffect(() => {
-  //   setToken(localStorage.getItem('token'));
-  //   if (role === 'user') {
-  //     navigate('/');
-  //   }
-  // },[])
+  useEffect(() => {
+    if(token){
+      try {
+        const decoded = jwtDecode(token);
+        setRole(decoded.role)
+        console.log(decoded.role)
+
+        if(decoded.role === 'user'){
+          navigate('/');
+        }else{
+          navigate('/admin')
+        }
+      } catch (error) {
+        console.error("Error while decoding token", error)
+      }
+    }
+  }, [token, navigate]);
+
+
   return (
     <>
       <Navbar />
