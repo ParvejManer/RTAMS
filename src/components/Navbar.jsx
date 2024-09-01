@@ -1,14 +1,16 @@
 import { AppBar, Toolbar, Button, Box, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Typography, CircularProgress, Menu, MenuItem } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { LocalShipping, AccountCircle, KeyboardArrowDown} from "@mui/icons-material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import axios from '../api/axios';
 
 function Navbar() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [name, setName] = useState('');
 
   const isMobile = useMediaQuery('(max-width:600px)');
 
@@ -43,6 +45,20 @@ function Navbar() {
     navigate('/profile'); 
     handleCloseMenu();
   };
+
+  useEffect(()=>{
+    const getUsername = async() =>{
+     try {
+       const response = await axios.get('/users/profile');
+       console.log(response.data);
+       setName(response.data);
+     } catch (error) {
+      console.error(error)
+     }
+    };
+    getUsername();
+  }, []);
+  
 
   return (
     <AppBar position="sticky" elevation={1} sx={{ backgroundColor: "#f5f5f5", height: 70 }}>
@@ -97,7 +113,7 @@ function Navbar() {
                   onClick={handleMenu}
                   endIcon={<KeyboardArrowDown />}
                 >
-                  Welcome, User
+                  {name.firstName}
                 </Button>
               )}
                 
