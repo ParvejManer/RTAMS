@@ -11,6 +11,9 @@ function Navbar() {
   const [loading, setLoading] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [name, setName] = useState('');
+  const token = localStorage.getItem('token')
+
+  
 
   const isMobile = useMediaQuery('(max-width:600px)');
 
@@ -46,18 +49,20 @@ function Navbar() {
     handleCloseMenu();
   };
 
+
   useEffect(()=>{
     const getUsername = async() =>{
+      
      try {
        const response = await axios.get('/users/profile');
        console.log(response.data);
-       setName(response.data);
+       setName(response.data.firstName);
      } catch (error) {
       console.error(error)
      }
     };
     getUsername();
-  }, []);
+  }, [token, navigate]);
   
 
   return (
@@ -113,7 +118,7 @@ function Navbar() {
                   onClick={handleMenu}
                   endIcon={<KeyboardArrowDown />}
                 >
-                  {name.firstName}
+                  {name || 'User'}
                 </Button>
               )}
                 

@@ -69,27 +69,6 @@ export const validateSchemaForSignup = Yup.object().shape({
 
 
 export const validateSchemeForVehicleRegistration = Yup.object().shape({
-  firstName: Yup.string().required("First Name is required"),
-  middleName: Yup.string()
-    .matches(/^[A-Za-z]+$/, 'Middle Name can only contain letters'),
-  lastName: Yup.string().required("Last Name is required"),
-  streetName: Yup.string().required("Street Name is required"),
-  city: Yup.string().required("City is required"),
-  state1: Yup.string().required("State is required"),
-  pincode: Yup.string()
-    .required('Pincode is required')
-    .matches(/^\d{6}$/, 'Pincode must be exactly 6 digits'),
-  contactNo: Yup.string()
-    .matches(/^\d+$/, 'Mobile number must contain only digits')
-    .length(10, 'Mobile number must be exactly 10 digits long')
-    .matches(/^[6789]/, 'Mobile number must start with 6, 7, 8, or 9')
-    .required('Mobile number is required'),
-  email: Yup.string()
-    .email("Invalid email format")
-    .required("Email is required"),
-  aadharNo: Yup.string()
-    .matches(/^\d{12}$/, "Invalid Adhaar number")
-    .required("Adhaar Number is required"),
   make: Yup.string().required("Vehicle Make is required"),
   model: Yup.string().required("Vehicle Model is required"),
   yearOfManufacturing: Yup.string()

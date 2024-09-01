@@ -26,7 +26,18 @@ const VehicleRegistrationForm = () => {
   const [registrationNumber, setRegistrationNumber] = useState("");
   const [loading, setLoading] = useState(false);
   const [acceptTerms, setAcceptTerms] = useState(false);
-  const [userInfo, setUserInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState({
+    firstName: "",
+  middleName: "",
+  lastName: "",
+  streetName: "",
+  city: "",
+  state1: "",
+  pincode: "",
+  mobileNumber: "",
+  email: "",
+  aadharNumber: "",
+  });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -61,26 +72,6 @@ useEffect(()=>{
     setLoading(true);
 
     try {
-        // Post owner data and get ownerId from the response
-        // const ownerResponse = await axios.post('/owners', {
-        //     firstName: userInfo.firstName,
-        //     middleName: userInfo.middleName,
-        //     lastName: userInfo.lastName,
-        //     streetName: userInfo.streetName,
-        //     city: userInfo.city,
-        //     state1: userInfo.state1,
-        //     pincode: userInfo.pincode,
-        //     contactNo: userInfo.contactNo,
-        //     email: userInfo.email,
-        //     aadharNo: userInfo.aadharNo,
-        // });
-
-        // Extract the ownerId from the response
-        // const { data: ownerData } = ownerResponse;
-        // const ownerId = ownerData?.id;
-
-        console.log("Owner ID:", userInfo.id);
-
         // Post vehicle data with the ownerId
         const vehicleResponse = await axios.post('/vehicles', {
             make: values.make,
@@ -91,7 +82,7 @@ useEffect(()=>{
             fuelType: values.fuelType,
             state2: values.state2,
             rtoDivisionId: values.rtoDivisionId,
-            ownerId: ownerId, 
+            ownerId: userInfo.id, 
         });
 
         // Extract the registration number from the vehicle response
@@ -108,7 +99,7 @@ useEffect(()=>{
 
 
         axios.post('/ownership-history',{
-          ownerId: ownerId,
+          ownerId: userInfo.id,
           registrationNumber: registrationNumber,
           ownerName: `${userInfo.firstName}  ${userInfo.lastName}`,
           ownershipStartDate: values.registrationDate ,
@@ -161,17 +152,18 @@ useEffect(()=>{
   return (
     <>
       <Formik
+      enableReinitialize
         initialValues={{
           firstName: userInfo?.firstName || "",
           middleName: userInfo?.middleName || "",
           lastName: userInfo?.lastName || "",
           streetName: userInfo?.streetName || "",
           city: userInfo?.city || "",
-          state1: userInfo?.state1 || "Maharashtra",
+          state1: userInfo?.state1 ,
           pincode: userInfo?.pincode || "",
-          contactNo: userInfo?.contactNo || "",
+          contactNo: userInfo?.mobileNumber || "",
           email: userInfo?.email || "",
-          aadharNo: userInfo?.aadharNo || "",
+          aadharNo: userInfo?.aadharNumber || "",
           make: "",
           model: "",
           yearOfManufacturing: "",
@@ -216,6 +208,7 @@ useEffect(()=>{
                       label="First Name"
                       name="firstName"
                       margin="normal"
+                      InputProps={{readOnly: true}}
                       required
                       fullWidth
                     />
@@ -234,6 +227,7 @@ useEffect(()=>{
                       label="Last Name"
                       name="lastName"
                       margin="normal"
+                      InputProps={{readOnly: true}}
                       required
                       fullWidth
                     />
@@ -243,6 +237,7 @@ useEffect(()=>{
                       label="Street Name"
                       name="streetName"
                       margin="normal"
+                      InputProps={{readOnly: true}}
                       required
                       fullWidth
                     />
@@ -252,6 +247,7 @@ useEffect(()=>{
                       label="City/Town"
                       name="city"
                       margin="normal"
+                      InputProps={{readOnly: true}}
                       required
                       fullWidth
                     />
@@ -272,15 +268,17 @@ useEffect(()=>{
                       label="Pincode"
                       name="pincode"
                       margin="normal"
+                      InputProps={{readOnly: true}}
                       required
                       fullWidth
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <TextInput
-                      label="Contact Number"
+                      label="Mobile Number"
                       name="contactNo"
                       margin="normal"
+                      InputProps={{readOnly: true}}
                       required
                       fullWidth
                     />
@@ -290,6 +288,7 @@ useEffect(()=>{
                       label="Email"
                       name="email"
                       margin="normal"
+                      InputProps={{readOnly: true}}
                       required
                       fullWidth
                     />
@@ -299,6 +298,7 @@ useEffect(()=>{
                       label="Aadhaar Number"
                       name="aadharNo"
                       margin="normal"
+                      InputProps={{readOnly: true}}
                       required
                       fullWidth
                     />
