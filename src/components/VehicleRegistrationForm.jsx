@@ -26,6 +26,8 @@ const VehicleRegistrationForm = () => {
   const [registrationNumber, setRegistrationNumber] = useState("");
   const [loading, setLoading] = useState(false);
   const [acceptTerms, setAcceptTerms] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,30 +41,45 @@ const VehicleRegistrationForm = () => {
     navigate('/landingpage');
   };  
 
+useEffect(()=>{
+  const getUserInfo = async() => {
+    try {
+      const response = await axios.get(`/users/profile`);
+      setUserInfo(response.data);
+      setError(null);
+    } catch (error) {
+      setUserInfo(null);
+      setError(error.response?.data?.message || 'Error occured during fetching user information')
+    }
+  };
+  getUserInfo();
+}, [])
+  
+
   const handleSubmit = async (values, actions) => {
     console.log(values);
     setLoading(true);
 
     try {
         // Post owner data and get ownerId from the response
-        const ownerResponse = await axios.post('/owners', {
-            firstName: values.firstName,
-            middleName: values.middleName,
-            lastName: values.lastName,
-            streetName: values.streetName,
-            city: values.city,
-            state1: values.state1,
-            pincode: values.pincode,
-            contactNo: values.contactNo,
-            email: values.email,
-            aadharNo: values.aadharNo,
-        });
+        // const ownerResponse = await axios.post('/owners', {
+        //     firstName: userInfo.firstName,
+        //     middleName: userInfo.middleName,
+        //     lastName: userInfo.lastName,
+        //     streetName: userInfo.streetName,
+        //     city: userInfo.city,
+        //     state1: userInfo.state1,
+        //     pincode: userInfo.pincode,
+        //     contactNo: userInfo.contactNo,
+        //     email: userInfo.email,
+        //     aadharNo: userInfo.aadharNo,
+        // });
 
         // Extract the ownerId from the response
-        const { data: ownerData } = ownerResponse;
-        const ownerId = ownerData?.id;
+        // const { data: ownerData } = ownerResponse;
+        // const ownerId = ownerData?.id;
 
-        console.log("Owner ID:", ownerId);
+        console.log("Owner ID:", userInfo.id);
 
         // Post vehicle data with the ownerId
         const vehicleResponse = await axios.post('/vehicles', {
@@ -93,7 +110,7 @@ const VehicleRegistrationForm = () => {
         axios.post('/ownership-history',{
           ownerId: ownerId,
           registrationNumber: registrationNumber,
-          ownerName: `${values.firstName}  ${values.lastName}`,
+          ownerName: `${userInfo.firstName}  ${userInfo.lastName}`,
           ownershipStartDate: values.registrationDate ,
         })
 
@@ -107,11 +124,8 @@ const VehicleRegistrationForm = () => {
 };
 
  
-  // Example usage:
   const regDate = new Date();
-  
-  // console.log(regDate)
-  
+ 
 
   //API call for Division and fuel list 
 
@@ -148,16 +162,16 @@ const VehicleRegistrationForm = () => {
     <>
       <Formik
         initialValues={{
-          firstName: "",
-          middleName: "",
-          lastName: "",
-          streetName: "",
-          city: "",
-          state1: "Maharashtra",
-          pincode: "",
-          contactNo: "",
-          email: "",
-          aadharNo: "",
+          firstName: userInfo?.firstName || "",
+          middleName: userInfo?.middleName || "",
+          lastName: userInfo?.lastName || "",
+          streetName: userInfo?.streetName || "",
+          city: userInfo?.city || "",
+          state1: userInfo?.state1 || "Maharashtra",
+          pincode: userInfo?.pincode || "",
+          contactNo: userInfo?.contactNo || "",
+          email: userInfo?.email || "",
+          aadharNo: userInfo?.aadharNo || "",
           make: "",
           model: "",
           yearOfManufacturing: "",

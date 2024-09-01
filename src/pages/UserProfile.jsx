@@ -1,22 +1,146 @@
-import { Box, Paper, Typography } from '@mui/material'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from "../api/axios";
+import { Box, Button, CircularProgress, Grid, Paper, Typography } from '@mui/material';
+import UpdateProfile from './UpdateProfile';
+import { useNavigate } from 'react-router-dom';
 
 const UserProfile = () => {
-  return (
-    <Box>
-      <Paper elevation={2} sx={{
-        padding: '2rem',
-        margin: '2rem',
-        height: '40vh',
-        maxWidth: 'md'
+  const [userData, setUserData] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get(`/users/profile`);
+        setUserData(response.data);
+        setLoading(false)
+      } catch (error) {
+        console.error("Error while fetching user data", error);
+        setLoading(false)
+      }
+    };
+    getUserData();
+  }, [])
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  }
+
+  const handleProfileUpdate = (updateData) => {
+    setUserData(updateData);
+    handleDialogClose();
+  }
+
+  const handleback = () => {
+    navigate(-1);
+  }
+
+  if (loading) {
+    return (
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh'
       }}>
-        <Typography variant='h5'>
-        This is the user profile.
-        This  page will show all the  information related to the logged in user.
-        </Typography>
-      </Paper>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  return (
+    <Box sx={{
+      maxWidth: 800,
+      margin: 'auto',
+      mt: 5,
+      p: 2,
+      minHeight: '75vh',
+    }}>
+      <Box sx={{
+        justifyContent: 'center',
+        alignContent: 'center',
+        alignItems: 'center'
+      }}>
+        <Typography variant="h4" sx={{ mb: 2 }}> User Profile</Typography>
+      </Box>
+
+      {userData && (
+        <Grid container spacing={2} sx={{ mb: 4 }}>
+          <Grid item xs={12} sm={6}>
+            <Typography><strong>First Name: </strong> {userData.firstName}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography><strong>Middle Name: </strong> {userData.middleName}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography><strong>Last Name: </strong> {userData.lastName}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography><strong>Street Name: </strong> {userData.streetName}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography><strong>City: </strong> {userData.city}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography><strong>State: </strong> {userData.state1}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography><strong>Pincode: </strong> {userData.pincode}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography><strong>Mobile Number: </strong> {userData.mobileNumber}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography><strong>Email: </strong> {userData.email}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography><strong>Aadhaar Number: </strong> {userData.aadharNumber}</Typography>
+          </Grid>
+        </Grid>
+      )}
+
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'space-evenly',
+        mt: 4
+      }}>
+        <Button variant='conatined' onClick={handleback} sx={{
+          backgroundColor: '#cccccc',
+          '&:hover': {
+            backgroundColor: '#b3b3b3',
+          },
+          color: '#000000',
+          '&:disabled': {
+            backgroundColor: '#e0e0e0',
+            color: '#9e9e9e',
+          }
+        }}>
+          Back
+        </Button>
+        <Button variant='contained' onClick={handleDialogClose} sx={{
+          backgroundColor: "#e8702a",
+          color: "#fff",
+          "&:hover": { backgroundColor: "#d45f1c" },
+        }}>
+          Update Profile
+        </Button>
+      </Box>
+
+
+
+      <UpdateProfile
+        open={dialogOpen}
+        onClose={handleDialogClose}
+        userData={userData}
+        onUpdate={handleProfileUpdate}
+      />
+
     </Box>
+
   )
 }
 
-export default UserProfile
+export default UserProfile;
