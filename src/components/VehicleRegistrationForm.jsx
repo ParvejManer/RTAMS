@@ -28,95 +28,97 @@ const VehicleRegistrationForm = () => {
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [userInfo, setUserInfo] = useState({
     firstName: "",
-  middleName: "",
-  lastName: "",
-  streetName: "",
-  city: "",
-  state1: "",
-  pincode: "",
-  mobileNumber: "",
-  email: "",
-  aadharNumber: "",
+    middleName: "",
+    lastName: "",
+    streetName: "",
+    city: "",
+    state1: "",
+    pincode: "",
+    mobileNumber: "",
+    email: "",
+    aadharNumber: "",
   });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!localStorage.getItem('token')) {
-      navigate('/signin');
-    }
-  }, [navigate]);
+  // useEffect(() => {
+  //   if (!localStorage.getItem('token')) {
+  //     navigate('/signin');
+  //   }
+  // }, [navigate]);
 
   const handleClose = () => {
     setOpen(false);
     navigate('/landingpage');
-  };  
-
-useEffect(()=>{
-  const getUserInfo = async() => {
-    try {
-      const response = await axios.get(`/users/profile`);
-      setUserInfo(response.data);
-      setError(null);
-    } catch (error) {
-      setUserInfo(null);
-      setError(error.response?.data?.message || 'Error occured during fetching user information')
-    }
   };
-  getUserInfo();
-}, [])
-  
+
+  useEffect(() => {
+    const getUserInfo = async () => {
+      try {
+        const response = await axios.get(`/users/profile`);
+        setUserInfo(response.data);
+        setError(null);
+      } catch (error) {
+        setUserInfo(null);
+        setError(error.response?.data?.message || 'Error occured during fetching user information')
+      }
+    };
+    getUserInfo();
+  }, [])
+
 
   const handleSubmit = async (values, actions) => {
     console.log(values);
     setLoading(true);
 
     try {
-        // Post vehicle data with the ownerId
-        const vehicleResponse = await axios.post('/vehicles', {
-            make: values.make,
-            model: values.model,
-            yearOfManufacturing: values.yearOfManufacturing,
-            color: values.color,
-            vinNumber: values.vinNumber,
-            fuelType: values.fuelType,
-            state2: values.state2,
-            rtoDivisionId: values.rtoDivisionId,
-            ownerId: userInfo.id, 
-        });
+      // Post vehicle data with the ownerId
+      const vehicleResponse = await axios.post('/vehicles', {
+        make: values.make,
+        model: values.model,
+        yearOfManufacturing: values.yearOfManufacturing,
+        color: values.color,
+        vinNumber: values.vinNumber,
+        fuelType: values.fuelType,
+        state2: values.state2,
+        rtoDivisionId: values.rtoDivisionId,
+        ownerId: userInfo.id,
+      });
 
-        // Extract the registration number from the vehicle response
-        const { data: vehicleData } = vehicleResponse;
-        const registrationNumber = vehicleData?.registrationNumber;
+      // Extract the registration number from the vehicle response
+      const { data: vehicleData } = vehicleResponse;
+      const registrationNumber = vehicleData?.registrationNumber;
+      const vehicleId = vehicleData?.vehicleId;
 
-        console.log(values.registrationDate)
+      console.log(values.registrationDate)
 
-        console.log("Registration Number:", registrationNumber);
+      console.log("Registration Number:", registrationNumber);
 
-        // Show the registration number in a dialog or alert
-        setRegistrationNumber(registrationNumber);
-        setOpen(true);
+      // Show the registration number in a dialog or alert
+      setRegistrationNumber(registrationNumber);
+      setOpen(true);
 
 
-        axios.post('/ownership-history',{
-          ownerId: userInfo.id,
-          registrationNumber: registrationNumber,
-          ownerName: `${userInfo.firstName}  ${userInfo.lastName}`,
-          ownershipStartDate: values.registrationDate ,
-        })
+      axios.post('/ownership-history', {
+        ownerId: userInfo.id,
+        registrationNumber: registrationNumber,
+        ownerName: `${userInfo.firstName}  ${userInfo.lastName}`,
+        ownershipStartDate: values.registrationDate,
+        vehicleId: vehicleId,
+      })
 
-        
+
     } catch (error) {
-        console.error("Error registering vehicle:", error);
+      console.error("Error registering vehicle:", error);
     } finally {
-        setLoading(false);
-        actions.setSubmitting(false);
+      setLoading(false);
+      actions.setSubmitting(false);
     }
-};
+  };
 
- 
+
   const regDate = new Date();
- 
+
 
   //API call for Division and fuel list 
 
@@ -124,42 +126,42 @@ useEffect(()=>{
   const [divisionList, setDivisionList] = useState([]);
   const [fuelTypes, setFuelTypes] = useState([])
 
-    const fetchDivision = async () => {
-        try {
-            const response = await axios.get('/rto-divisions');
-            console.log(response.data)
-            setDivisionList(response.data);
-        } catch (error) {
-            console.log("Error fetching divisions:", error);
-        }
-    };
-
-    const fetchFuelTypes = async () => {
-      try {
-          const response = await axios.get('/fuelTypes');
-          console.log(response.data)
-          setFuelTypes(response.data);
-      } catch (error) {
-          console.log("Error fetching fuel types:", error);
-      }
+  const fetchDivision = async () => {
+    try {
+      const response = await axios.get('/rto-divisions');
+      console.log(response.data)
+      setDivisionList(response.data);
+    } catch (error) {
+      console.log("Error fetching divisions:", error);
+    }
   };
 
-    useEffect(() => {
-        fetchDivision();
-        fetchFuelTypes();
-    }, []);
+  const fetchFuelTypes = async () => {
+    try {
+      const response = await axios.get('/fuelTypes');
+      console.log(response.data)
+      setFuelTypes(response.data);
+    } catch (error) {
+      console.log("Error fetching fuel types:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDivision();
+    fetchFuelTypes();
+  }, []);
 
   return (
     <>
       <Formik
-      enableReinitialize
+        enableReinitialize
         initialValues={{
           firstName: userInfo?.firstName || "",
           middleName: userInfo?.middleName || "",
           lastName: userInfo?.lastName || "",
           streetName: userInfo?.streetName || "",
           city: userInfo?.city || "",
-          state1: userInfo?.state1 ,
+          state1: userInfo?.state1,
           pincode: userInfo?.pincode || "",
           contactNo: userInfo?.mobileNumber || "",
           email: userInfo?.email || "",
@@ -173,7 +175,7 @@ useEffect(()=>{
           rtoDivisionId: "",
           state2: "Maharashtra",
           registrationDate: regDate.toLocaleDateString(),
-          acceptTerms: false, 
+          acceptTerms: false,
         }}
         validationSchema={validateSchemeForVehicleRegistration}
         onSubmit={handleSubmit}
@@ -208,7 +210,7 @@ useEffect(()=>{
                       label="First Name"
                       name="firstName"
                       margin="normal"
-                      InputProps={{readOnly: true}}
+                      InputProps={{ readOnly: true }}
                       required
                       fullWidth
                     />
@@ -227,7 +229,7 @@ useEffect(()=>{
                       label="Last Name"
                       name="lastName"
                       margin="normal"
-                      InputProps={{readOnly: true}}
+                      InputProps={{ readOnly: true }}
                       required
                       fullWidth
                     />
@@ -237,7 +239,7 @@ useEffect(()=>{
                       label="Street Name"
                       name="streetName"
                       margin="normal"
-                      InputProps={{readOnly: true}}
+                      InputProps={{ readOnly: true }}
                       required
                       fullWidth
                     />
@@ -247,7 +249,7 @@ useEffect(()=>{
                       label="City/Town"
                       name="city"
                       margin="normal"
-                      InputProps={{readOnly: true}}
+                      InputProps={{ readOnly: true }}
                       required
                       fullWidth
                     />
@@ -258,7 +260,7 @@ useEffect(()=>{
                       label="State"
                       name="state1"
                       margin="normal"
-                      InputProps={{readOnly: true}}
+                      InputProps={{ readOnly: true }}
                       required
                       fullWidth
                     />
@@ -268,7 +270,7 @@ useEffect(()=>{
                       label="Pincode"
                       name="pincode"
                       margin="normal"
-                      InputProps={{readOnly: true}}
+                      InputProps={{ readOnly: true }}
                       required
                       fullWidth
                     />
@@ -278,7 +280,7 @@ useEffect(()=>{
                       label="Mobile Number"
                       name="contactNo"
                       margin="normal"
-                      InputProps={{readOnly: true}}
+                      InputProps={{ readOnly: true }}
                       required
                       fullWidth
                     />
@@ -288,7 +290,7 @@ useEffect(()=>{
                       label="Email"
                       name="email"
                       margin="normal"
-                      InputProps={{readOnly: true}}
+                      InputProps={{ readOnly: true }}
                       required
                       fullWidth
                     />
@@ -298,7 +300,7 @@ useEffect(()=>{
                       label="Aadhaar Number"
                       name="aadharNo"
                       margin="normal"
-                      InputProps={{readOnly: true}}
+                      InputProps={{ readOnly: true }}
                       required
                       fullWidth
                     />
@@ -356,20 +358,20 @@ useEffect(()=>{
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
-                    <SelectInput List={fuelTypes} name="fuelType" label="Fuel Type" isObjectList={true}/>
+                    <SelectInput List={fuelTypes} name="fuelType" label="Fuel Type" isObjectList={true} />
                   </Grid>
                   <Grid item xs={12} sm={6}>
-                  <TextInput
+                    <TextInput
                       label="State"
                       name="state2"
                       // margin="normal"
-                      InputProps={{readOnly: true}}
+                      InputProps={{ readOnly: true }}
                       required
                       fullWidth
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} marginY={2}>
-                    <SelectInput List={divisionList} name="rtoDivisionId" label="Division" isObjectList={true}/>
+                    <SelectInput List={divisionList} name="rtoDivisionId" label="Division" isObjectList={true} />
                   </Grid>
                   <Grid item xs={12} sm={6} marginY={2}>
                     <TextInput
@@ -443,7 +445,7 @@ useEffect(()=>{
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description" sx={{ fontSize: "18px", color: "#333" }}>
-            Your vehicle has been successfully registered. The registration number is: 
+            Your vehicle has been successfully registered. The registration number is:
             <Typography component="span" sx={{ fontWeight: "bold", color: "#000", fontSize: "22px" }}>
               {registrationNumber}
             </Typography>

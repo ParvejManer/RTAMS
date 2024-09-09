@@ -23,7 +23,7 @@ function Navbar() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      navigate('/signin');
+      navigate('/');
     }, 1000);
   };
 
@@ -55,7 +55,7 @@ function Navbar() {
       
      try {
        const response = await axios.get('/users/profile');
-       console.log(response.data);
+    
        setName(response.data.firstName);
      } catch (error) {
       console.error(error)
@@ -84,7 +84,7 @@ function Navbar() {
           <Button
             color="inherit"
             component={Link}
-            to="/about"
+            to="about"
             sx={{ color: "#000000", fontSize: "16px", textTransform: "none" }}
           >
             About Us
@@ -92,7 +92,7 @@ function Navbar() {
           <Button
             color="inherit"
             component={Link}
-            to="/contact"
+            to="contact"
             sx={{ color: "#000000", fontSize: "16px", textTransform: "none" }}
           >
             Contact Us

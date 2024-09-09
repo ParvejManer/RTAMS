@@ -12,7 +12,7 @@ import {
   Box,
   TablePagination
 } from '@mui/material';
-import axios from '../api/axios';
+import axios from '../../api/axios';
 import styled from "@emotion/styled";
 import { useNavigate } from 'react-router-dom';
 
@@ -29,24 +29,23 @@ const TableRowStyled = styled(TableRow)`
 `;
 
 
-const OwnershipHistory = () => {
-  const [ownershipData, setOwnershipData] = useState([]);
+const TotalVehicles = () => {
+  const [vehicleData, setVehicleData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const navigate = useNavigate();
 
 
-  useEffect(() => {
-    if (!localStorage.getItem('token')) {
-      navigate('/signin');
-    }
-  }, [navigate]);
+//   useEffect(() => {
+//     if (!localStorage.getItem('token')) {
+//       navigate('/signin');
+//     }
+//   }, [navigate]);
 
   useEffect(() => {
-    // Fetch ownership history data from the API
-    axios.get('/ownership-history')
+    axios.get('/vehicles')
       .then((response) => {
-        setOwnershipData(response.data);
+        setVehicleData(response.data);
       })
       .catch((error) => {
         console.error('Error fetching ownership history:', error);
@@ -68,34 +67,37 @@ const OwnershipHistory = () => {
     <Container maxWidth="lg" sx={{ minHeight: "85vh", paddingY: 5 }}>
       <Box mt={4} mb={2}>
         <Typography variant="h2" fontWeight="bold" component="h1" gutterBottom>
-          Vehicle Ownership History
+          Registered Vehicles.
         </Typography>
         <Typography variant="subtitle1" color="textSecondary">
-          View the complete ownership history of vehicle.
+          View all the registered vehicles on the system.
         </Typography>  
       </Box>
 
       <Box mt={2}>
-        <Typography variant="h5" fontWeight="bold" component="h2" gutterBottom>
-          Ownership History
-        </Typography>
         <TableContainer component={Paper} elevation={5}>
           <Table>
             <TableHead>
               <TableRow>
                 <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Registration Number</TableCell>
-                <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Owner Name</TableCell>
-                <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Start Date</TableCell>
-                <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>End Date</TableCell>
+                <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Brand</TableCell>
+                <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Model</TableCell>
+                <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>MFG Year</TableCell>
+                <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Color</TableCell>
+                <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Fuel Type</TableCell>
+                <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>VIN Number</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {ownershipData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
+              {vehicleData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
                 <TableRowStyled key={`${row.registrationNumber}-${index}`}>
                   <TableCell>{row.registrationNumber}</TableCell>
-                  <TableCell>{row.ownerName}</TableCell>
-                  <TableCell>{new Date(row.ownershipStartDate).toLocaleDateString()}</TableCell>
-                  <TableCell>{row.endDate ? new Date(row.ownershipEndDate).toLocaleDateString() : '-'}</TableCell>
+                  <TableCell>{row.make}</TableCell>
+                  <TableCell>{row.model}</TableCell>
+                  <TableCell>{row.yearOfManufacturing}</TableCell>
+                  <TableCell>{row.color}</TableCell>
+                  <TableCell>{row.fuelType}</TableCell>
+                  <TableCell>{row.vinNumber}</TableCell>
                 </TableRowStyled>
               ))}
             </TableBody>
@@ -103,7 +105,7 @@ const OwnershipHistory = () => {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={ownershipData.length}
+            count={vehicleData.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={changePage}
@@ -115,4 +117,4 @@ const OwnershipHistory = () => {
   );
 };
 
-export default OwnershipHistory;
+export default TotalVehicles;

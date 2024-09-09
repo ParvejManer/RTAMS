@@ -11,7 +11,7 @@ function App() {
 
   useEffect(() => {
     const getToken = localStorage.getItem('token');
-
+    console.log("app rendered")
     if(getToken){
       try {
         const decoded = jwtDecode(getToken);
@@ -21,7 +21,7 @@ function App() {
         if(decoded.role === 'admin'){
           navigate('/admin')
         }else{
-          navigate('/')
+          navigate('/landingpage')
         }
       } catch (error) {
         console.error("Erroe while decoding token", error);
@@ -29,10 +29,11 @@ function App() {
     }else {
       navigate('/signin')
     }
-  },[navigate]);
+  },[]);
 
   return (
     <>
+    {console.log("app rendetd")}
       <Navbar />
       <Outlet />
       <Footer />

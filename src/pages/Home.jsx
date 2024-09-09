@@ -27,13 +27,14 @@ const HomePage = () => {
             Our comprehensive management system helps you efficiently manage
             vehicle registrations, vehicle transfers, and ownership history.
           </Typography>
+          {console.log("rendered home")}
           {localStorage.getItem('token') ?
           (<Box sx={{ marginTop: 4 }}>
             <Button
               variant="contained"
               color="primary"
               component={Link}
-              to="/landingpage"
+              to="landingpage"
               sx={{
                 backgroundColor: "#e8702a",
                 "&:hover": { backgroundColor: "#d45f1c" },
@@ -52,7 +53,7 @@ const HomePage = () => {
               variant="contained"
               color="primary"
               component={Link}
-              to="/signin"
+              to="signin"
               sx={{
                 backgroundColor: "#e8702a",
                 "&:hover": { backgroundColor: "#d45f1c" },
@@ -69,7 +70,7 @@ const HomePage = () => {
               variant="contained"
               color="primary"
               component={Link}
-              to="/signup"
+              to="signup"
               sx={{
                 backgroundColor: "#e8702a",
                 "&:hover": { backgroundColor: "#d45f1c" },

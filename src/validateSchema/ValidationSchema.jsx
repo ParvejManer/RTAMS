@@ -84,3 +84,12 @@ export const validateSchemeForVehicleRegistration = Yup.object().shape({
   rtoDivisionId: Yup.number().required("RTO Division is required"),
 });
 
+
+export const validateVehicleTransfer = Yup.object().shape({
+  mobileNumber : Yup.string()
+  .matches(/^\d+$/, 'Mobile number must contain only digits')
+  .length(10, 'Mobile number must be exactly 10 digits long')
+  .matches(/^[6789]/, 'Mobile number must start with 6, 7, 8, or 9')
+  .required('Mobile number is required'),
+})
+

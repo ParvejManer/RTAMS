@@ -16,6 +16,7 @@ const UserProfile = () => {
         const token = localStorage.getItem('token');
         const response = await axios.get(`/users/profile`);
         setUserData(response.data);
+        // console.log(response.data.id);
         setLoading(false)
       } catch (error) {
         console.error("Error while fetching user data", error);
@@ -29,13 +30,19 @@ const UserProfile = () => {
     setDialogOpen(false);
   }
 
+
   const handleProfileUpdate = (updateData) => {
     setUserData(updateData);
+    alert('Profile updated successfully!!')
     handleDialogClose();
   }
 
   const handleback = () => {
     navigate(-1);
+  }
+
+  const handleDialogOpen = () => {
+    setDialogOpen(true);
   }
 
   if (loading) {
@@ -59,47 +66,45 @@ const UserProfile = () => {
       p: 2,
       minHeight: '75vh',
     }}>
-      <Box sx={{
-        justifyContent: 'center',
-        alignContent: 'center',
-        alignItems: 'center'
-      }}>
-        <Typography variant="h4" sx={{ mb: 2 }}> User Profile</Typography>
+      <Box sx={{mb:3, textAlign:'center', alignContent: 'center'}} >
+        <Typography variant="h4" sx={{ mb: 2, alignSelf:'center', textAlign:'center', fontWeight: 'bold' }}> User Profile</Typography>
       </Box>
 
       {userData && (
+        <Paper elevation={3} sx={{padding: 2}}>
         <Grid container spacing={2} sx={{ mb: 4 }}>
           <Grid item xs={12} sm={6}>
-            <Typography><strong>First Name: </strong> {userData.firstName}</Typography>
+            <Typography  variant='h6'><strong>First Name: </strong> {userData.firstName}</Typography>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Typography><strong>Middle Name: </strong> {userData.middleName}</Typography>
+            <Typography variant='h6'><strong>Middle Name: </strong> {userData.middleName}</Typography>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Typography><strong>Last Name: </strong> {userData.lastName}</Typography>
+            <Typography variant='h6'><strong>Last Name: </strong> {userData.lastName}</Typography>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Typography><strong>Street Name: </strong> {userData.streetName}</Typography>
+            <Typography variant='h6'><strong>Street Name: </strong> {userData.streetName}</Typography>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Typography><strong>City: </strong> {userData.city}</Typography>
+            <Typography variant='h6'><strong>City: </strong> {userData.city}</Typography>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Typography><strong>State: </strong> {userData.state1}</Typography>
+            <Typography variant='h6'><strong>State: </strong> {userData.state1}</Typography>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Typography><strong>Pincode: </strong> {userData.pincode}</Typography>
+            <Typography variant='h6'><strong>Pincode: </strong> {userData.pincode}</Typography>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Typography><strong>Mobile Number: </strong> {userData.mobileNumber}</Typography>
+            <Typography variant='h6'><strong>Mobile Number: </strong> {userData.mobileNumber}</Typography>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Typography><strong>Email: </strong> {userData.email}</Typography>
+            <Typography variant='h6'><strong>Email: </strong> {userData.email}</Typography>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Typography><strong>Aadhaar Number: </strong> {userData.aadharNumber}</Typography>
+            <Typography variant='h6'><strong>Aadhaar Number: </strong> {userData.aadharNumber}</Typography>
           </Grid>
         </Grid>
+        </Paper>
       )}
 
       <Box sx={{
@@ -120,7 +125,7 @@ const UserProfile = () => {
         }}>
           Back
         </Button>
-        <Button variant='contained' onClick={handleDialogClose} sx={{
+        <Button variant='contained' onClick={handleDialogOpen} sx={{
           backgroundColor: "#e8702a",
           color: "#fff",
           "&:hover": { backgroundColor: "#d45f1c" },

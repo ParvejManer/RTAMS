@@ -76,7 +76,7 @@ const LandingPage = () => {
                   variant="contained"
                   color="primary"
                   component={Link}
-                  to="transfer"
+                  to="transferVehicle"
                   sx={{
                     marginTop: "1rem",
                     backgroundColor: "#e8702a",
@@ -108,9 +108,6 @@ const LandingPage = () => {
                   type="submit"
                   variant="contained"
                   color="primary"
-                  // onClick={()=>{
-                  //   navigate('/landingpage/history')
-                  // }}
                   component={Link}
                   to='history'
                   sx={{

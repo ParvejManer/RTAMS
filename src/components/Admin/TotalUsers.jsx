@@ -12,7 +12,7 @@ import {
   Box,
   TablePagination
 } from '@mui/material';
-import axios from '../api/axios';
+import axios from '../../api/axios';
 import styled from "@emotion/styled";
 import { useNavigate } from 'react-router-dom';
 
@@ -29,24 +29,24 @@ const TableRowStyled = styled(TableRow)`
 `;
 
 
-const OwnershipHistory = () => {
-  const [ownershipData, setOwnershipData] = useState([]);
+const TotalUsers = () => {
+  const [userData, setUserData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const navigate = useNavigate();
 
 
-  useEffect(() => {
-    if (!localStorage.getItem('token')) {
-      navigate('/signin');
-    }
-  }, [navigate]);
+//   useEffect(() => {
+//     if (!localStorage.getItem('token')) {
+//       navigate('/signin');
+//     }
+//   }, [navigate]);
 
   useEffect(() => {
-    // Fetch ownership history data from the API
-    axios.get('/ownership-history')
+    
+    axios.get('/users')
       .then((response) => {
-        setOwnershipData(response.data);
+        setUserData(response.data);
       })
       .catch((error) => {
         console.error('Error fetching ownership history:', error);
@@ -68,34 +68,35 @@ const OwnershipHistory = () => {
     <Container maxWidth="lg" sx={{ minHeight: "85vh", paddingY: 5 }}>
       <Box mt={4} mb={2}>
         <Typography variant="h2" fontWeight="bold" component="h1" gutterBottom>
-          Vehicle Ownership History
+          Registered Users.
         </Typography>
         <Typography variant="subtitle1" color="textSecondary">
-          View the complete ownership history of vehicle.
+          View all the registered users on the system.
         </Typography>  
       </Box>
 
       <Box mt={2}>
-        <Typography variant="h5" fontWeight="bold" component="h2" gutterBottom>
-          Ownership History
-        </Typography>
         <TableContainer component={Paper} elevation={5}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Registration Number</TableCell>
-                <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Owner Name</TableCell>
-                <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Start Date</TableCell>
-                <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>End Date</TableCell>
+                <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>User Id</TableCell>
+                <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>User Name</TableCell>
+                <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Address</TableCell>
+                <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Pincode</TableCell>
+                <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Mobile Number</TableCell>
+                <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Email</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {ownershipData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
-                <TableRowStyled key={`${row.registrationNumber}-${index}`}>
-                  <TableCell>{row.registrationNumber}</TableCell>
-                  <TableCell>{row.ownerName}</TableCell>
-                  <TableCell>{new Date(row.ownershipStartDate).toLocaleDateString()}</TableCell>
-                  <TableCell>{row.endDate ? new Date(row.ownershipEndDate).toLocaleDateString() : '-'}</TableCell>
+              {userData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
+                <TableRowStyled key={`${row.id}-${index}`}>
+                  <TableCell>{row.id}</TableCell>
+                  <TableCell>{`${row.firstName} ${row.middleName ? row.middleName : ""} ${row.lastName}`}</TableCell>
+                  <TableCell>{`${row.streetName}, ${row.city}, ${row.state1}`}</TableCell>
+                  <TableCell>{row.pincode}</TableCell>
+                  <TableCell>{row.mobileNumber}</TableCell>
+                  <TableCell>{row.email}</TableCell>
                 </TableRowStyled>
               ))}
             </TableBody>
@@ -103,7 +104,7 @@ const OwnershipHistory = () => {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={ownershipData.length}
+            count={userData.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={changePage}
@@ -115,4 +116,4 @@ const OwnershipHistory = () => {
   );
 };
 
-export default OwnershipHistory;
+export default TotalUsers;
