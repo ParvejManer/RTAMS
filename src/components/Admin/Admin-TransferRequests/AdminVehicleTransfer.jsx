@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Container, Tabs, Tab, Box, Grid } from '@mui/material';
 import AdminTransferRequests from './AdminTransferRequests';
 
-function AdminVehicleTransfer() {
+const AdminVehicleTransfer = () => {
     const [tabValue, setTabValue] = useState(0);
 
     const handleTabChange = (event, newValue) => {

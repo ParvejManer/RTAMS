@@ -92,7 +92,7 @@ const CreateRouter = createBrowserRouter(
           <Route path="user" element={<TotalUsers />} />
           <Route path="vehicle" element={<TotalVehicles />} />
           <Route path="transfer" element={<AdminVehicleTransfer />} />
-        </Route>
+        </Route>        
       </Route>
     </>
 

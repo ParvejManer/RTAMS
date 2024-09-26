@@ -20,15 +20,9 @@ const VehicleTransferForm = ({ selectedVehicle }) => {
           return;
         }
 
-        // Dummy API call to check if the user exists
-        axios
-          .get(`/api/users/${values.mobileNumber}`)
-          .then(() => {
-            // If user exists, send transfer request
-            return axios.post('/api/transfer-request', {
-              vehicleId: selectedVehicle.id,
-              newOwnerMobile: values.mobileNumber,
-            });
+        axios.post(`/vehicle-transfers/request-transfer/${selectedVehicle.id}`, {
+            vehicleId: selectedVehicle.id,
+            newOwnerMobile: values.mobileNumber,
           })
           .then(() => {
             alert('Transfer request sent.');
@@ -49,8 +43,8 @@ const VehicleTransferForm = ({ selectedVehicle }) => {
               fullWidth
               name="mobileNumber"
               disabled={!isVehicleSelected}
-            //   helperText={<ErrorMessage name="mobileNumber" />}
-            //   error={touched.mobileNumber && Boolean(errors.mobileNumber)}
+              helperText={<ErrorMessage name="mobileNumber" />}
+              error={touched.mobileNumber && Boolean(errors.mobileNumber)}
             />
             <Button
               variant="contained"

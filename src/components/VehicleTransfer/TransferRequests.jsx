@@ -1,64 +1,81 @@
-import React, { useEffect, useState } from 'react'
-import axios from '../../api/axios'
+import React, { useEffect, useState } from 'react';
+import axios from '../../api/axios';
 import { Box, Button, List, ListItem, ListItemText, Typography } from '@mui/material';
 
+
 const TransferRequests = () => {
+
+
     const [requests, setRequests] = useState([]);
 
-    useEffect(()=>{
-        axios.get('/transfer-requests')
-            .then((response) => {
-                setRequests(response.data)
+    useEffect(() => {
+        axios.get('/vehicle-transfers/requests')
+            .then(response => {
+                setRequests(response.data);
+                // console.log(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching transfer requests:', error);
             });
     }, []);
 
-    const handleAccept = (requestId) => {
-        axios.post(`/transfer-request/${requestId}/accept`)
-            .then(() => {
-                alert('Request Accepted and send to the admin for approval');
-                setRequests(requests.filter((request) => request.id !== requestId));
 
-                axios.post('/admin/notify', {requestId})
-                    .then(() => {
-                        console.log('Admin notified for approval');
-                    });
+
+    const handleAccept = (requestId) => {
+        axios.patch(`/vehicle-transfers/respond/${requestId}`, { status: 'Accepted' })
+            .then(() => {
+                alert('Request accepted.');
+                setRequests(requests.filter(request => request.id !== requestId));
+            })
+            .catch(error => {
+                console.error('Error accepting transfer request:', error);
+            });       
+    };
+
+
+
+    const handleReject = (requestId) => {
+        axios.patch(`/vehicle-transfers/respond/${requestId}`, { status: 'Rejected' })
+            .then(() => {
+                alert('Request rejected.');
+                setRequests(requests.filter(request => request.id !== requestId));
+            })
+            .catch(error => {
+                console.error('Error rejecting transfer request:', error);
             });
     };
 
 
-    const handleReject = (requestId) => {
-        axios.post(`/transfer-request/${requestId}/reject`)
-        .then(() => {
-            alert('Request Rejected')
-            setRequests(requests.filter((request) => request.id !== requestId));
-        });
-    };
-
-    return(
-        <Box sx={{p: 2, border: '1px solid #e0e0e0', borderRadius: '8px'}}>
+    return (
+        <Box sx={{ p: 2, border: '1px solid #E0E0E0', borderRadius: '8px' }}>
             <Typography variant="h4" sx={{ mb: 2, fontWeight: 'bold' }}>
                 Transfer Requests
             </Typography>
             <List>
-                {requests.map((request) => (
+                {requests.map(request => (
                     <ListItem key={request.id}>
-                        <ListItemText 
-                            primary={`Vehicle: ${request.vehicle.registrationNumber} ${request.vehicle,make} 
-                            ${request.vehicle.model}`}
-                            secondary={`From: ${request.currentOwner}, To: ${request.newOwner}`}
+                        <ListItemText
+                            primary={`Vehicle: ${request.vehicle.registrationNumber} ${request.vehicle.make} ${request.vehicle.model}`}
+                            secondary={
+                                <>
+                                    {`From: ${request.currentOwner.firstName} ${request.currentOwner.lastName}`}
+                                    <br />
+                                    {`To: ${request.newOwner.firstName} ${request.newOwner.lastName}`}
+                                </>
+                            }
                         />
-
-                        <Button variant='contained' color='success' onClick={()=> handleAccept(request.id)}>
+                        
+                        <Button variant='contained' color='success' onClick={() => handleAccept(request.id)}>
                             Accept
                         </Button>
-                        <Button variant='contained' color='error' onClick={()=> handleReject(request.id)}>
-                            Request
+                        <Button variant='contained' color='error' onClick={() => handleReject(request.id)}>
+                            Reject
                         </Button>
                     </ListItem>
                 ))}
             </List>
         </Box>
-    )
-}
-
+    );
+};
 export default TransferRequests;
+

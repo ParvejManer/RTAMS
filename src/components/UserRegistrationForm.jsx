@@ -74,6 +74,7 @@ const UserRegistrationForm = () => {
                 type="submit"
                 variant="contained"
                 color="primary"
+                fullWidth
                 sx={{ marginTop: 2 }}
               >
                 Add Vehicle

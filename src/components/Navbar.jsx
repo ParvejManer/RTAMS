@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import axios from '../api/axios';
 
-function Navbar() {
+const Navbar = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
